@@ -3,8 +3,8 @@ using Booking.Core.Data;
 using Booking.Core.Guests;
 using Booking.Core.Guests.Commands;
 using Booking.Core.Guests.Models;
-using Booking.Core.Guests.Responses;
 using Booking.Core.Tests.Commons;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
@@ -22,30 +22,28 @@ public class DeleteGuestCmdHandlerTest : BaseTest
     }
 
     [Fact]
-    public async Task Should_throw_ArgumentOutOfRangeException_When_Guid_Is_Empty()
+    public async Task Should_throw_ValidationException_When_Guid_Is_Empty()
     {
         var dbContext = _injector.GetRequiredService<BookingDbContext>();
         var handler = _injector.GetRequiredService<DeleteGuestCmdHandler>();
 
         var cmd = new DeleteGuestCmd(Guid.Empty);
-        await Should.ThrowAsync<ArgumentOutOfRangeException>(() => handler.Handle(cmd, CancellationToken.None));
+        await Should.ThrowAsync<ValidationException>(() => handler.Handle(cmd, CancellationToken.None));
     }
 
     public static List<object[]> Should_Successfully_Delete_Some_Guests_Data = new() {
-        new object[] { new GuestCreateUpdateBody { Name = "Jonas D1" } },
-        new object[] { new GuestCreateUpdateBody { Name = "Jonas D2" } },
-        new object[] { new GuestCreateUpdateBody { Name = "Jonas D3" } }
+        new object[] { new Guest { Name = "Jonas D1" } },
+        new object[] { new Guest { Name = "Jonas D2" } },
+        new object[] { new Guest { Name = "Jonas D3" } }
     };
 
     [Theory]
     [MemberData(nameof(Should_Successfully_Delete_Some_Guests_Data))]
-    public async Task Should_Successfully_Delete_Some_Guests(GuestCreateUpdateBody body)
+    public async Task Should_Successfully_Delete_Some_Guests(Guest guest)
     {
         var dbContext = _injector.GetRequiredService<BookingDbContext>();
         var handler = _injector.GetRequiredService<DeleteGuestCmdHandler>();
 
-        var guest = new Guest();
-        body.MapTo(guest);
         dbContext.Guests.Add(guest);
         await dbContext.SaveChangesAsync();
 

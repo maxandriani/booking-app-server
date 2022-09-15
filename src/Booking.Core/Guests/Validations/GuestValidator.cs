@@ -1,3 +1,4 @@
+using Booking.Core.GuestContacts.Validations;
 using Booking.Core.Guests.Models;
 using FluentValidation;
 
@@ -13,5 +14,8 @@ public class GuestValidator : AbstractValidator<Guest>
             .NotEmpty()
             .MinimumLength(NameMinLength)
             .WithMessage($"O campo Nome deve conter pelo menos {NameMinLength} caracteres.");
+
+        RuleForEach(q => q.Contacts)
+            .SetValidator(new GuestContactValidator());
     }
 }

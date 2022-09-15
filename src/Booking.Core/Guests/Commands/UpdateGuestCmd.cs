@@ -1,4 +1,5 @@
-using Booking.Core.Guests.Responses;
+using Booking.Core.Guests.Models;
+using Booking.Core.Guests.ViewModels;
 using MediatR;
 
 namespace Booking.Core.Guests.Commands;
@@ -6,14 +7,10 @@ namespace Booking.Core.Guests.Commands;
 /// <summary>
 /// Atualiza um registro de <see cref="Booking.Core.Guests.Models.Guest" />
 /// </summary>
-public class UpdateGuestCmd : IRequest<GuestResponse>
+public record UpdateGuestCmd(
+    Guid Id,
+    string Name
+) : IRequest<GuestWithContactsResponse>
 {
-    public Guid Id { get; set; }
-    public GuestCreateUpdateBody? Body { get; set; }
-
-    public UpdateGuestCmd(Guid id, GuestCreateUpdateBody? body)
-    {
-        Id = id;
-        Body = body;
-    }
+    public string Name { get; init; } = Name.Trim();
 }

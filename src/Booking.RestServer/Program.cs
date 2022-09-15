@@ -1,6 +1,14 @@
 using Booking.Core.Data;
+using Booking.Core.GuestContacts;
+using Booking.Core.GuestContacts.Commands;
+using Booking.Core.GuestContacts.Events;
+using Booking.Core.GuestContacts.Models;
+using Booking.Core.GuestContacts.Queries;
+using Booking.Core.GuestContacts.Validations;
 using Booking.Core.Guests;
+using Booking.Core.Guests.Commands;
 using Booking.Core.Guests.Models;
+using Booking.Core.Guests.Queries;
 using Booking.Core.Guests.Validations;
 using FluentValidation;
 using MediatR;
@@ -22,8 +30,40 @@ builder.Services
         typeof(DeleteGuestCmdHandler),
         typeof(SearchGuestsQueryHandler),
         typeof(GetGuestByKeyQueryHandler),
-        typeof(UpdateGuestCmdHandler))
-    .AddScoped<IValidator<Guest>, GuestValidator>();
+        typeof(UpdateGuestCmdHandler),
+        typeof(CreateGuestContactCmdHandler),
+        typeof(DeleteGuestContactCmdHandler),
+        typeof(SearchGuestContactQueryHandler),
+        typeof(GetGuestContactByKeyQueryHandler),
+        typeof(UpdateGuestContactCmdHandler),
+
+        typeof(GuestContactShallReferenceExistingGuest))
+
+    .AddScoped<IValidator<Guest>, GuestValidator>()
+    .AddScoped<IValidator<GuestContact>, GuestContactValidator>()
+
+    .AddScoped<IValidator<CreateGuestWithContactsCmd>, CreateGuestWithContactsCmdValidator>()
+    .AddScoped<IValidator<DeleteGuestCmd>, DeleteGuestCmdValidator>()
+    .AddScoped<IValidator<SearchGuestsQuery>, SearchGuestsQueryValidator>()
+    .AddScoped<IValidator<GetGuestByKeyQuery>, GetGuestByKeyQueryValidator>()
+    .AddScoped<IValidator<UpdateGuestCmd>, UpdateGuestCmdValidator>()
+    .AddScoped<IValidator<CreateGuestContactCmd>, CreateGuestContactCmdValidator>()
+    .AddScoped<IValidator<DeleteGuestContactCmd>, DeleteGuestContactCmdValidator>()
+    .AddScoped<IValidator<SearchGuestContactQuery>, SearchGuestContactQueryValidator>()
+    .AddScoped<IValidator<GetGuestContactByKeyQuery>, GetGuestContactByKeyQueryValidator>()
+    .AddScoped<IValidator<UpdateGuestContactCmd>, UpdateGuestContactCmdValidator>()
+
+    .AddScoped<CreateGuestCmdHandler>()
+    .AddScoped<DeleteGuestCmdHandler>()
+    .AddScoped<SearchGuestsQueryHandler>()
+    .AddScoped<GetGuestByKeyQueryHandler>()
+    .AddScoped<UpdateGuestCmdHandler>()
+    .AddScoped<CreateGuestContactCmdHandler>()
+    .AddScoped<DeleteGuestContactCmdHandler>()
+    .AddScoped<SearchGuestContactQueryHandler>()
+    .AddScoped<GetGuestContactByKeyQueryHandler>()
+    .AddScoped<UpdateGuestContactCmdHandler>()
+    .AddScoped<GuestContactShallReferenceExistingGuest>();
 
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(config =>
