@@ -4,6 +4,7 @@ using Booking.Core.Guests;
 using Booking.Core.Guests.Models;
 using Booking.Core.Guests.Queries;
 using Booking.Core.Tests.Commons;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
@@ -12,13 +13,13 @@ namespace Booking.Core.Tests.Guests;
 public class GetGuestByKeyQueryHandlerTest : BaseTest
 {
     [Fact]
-    public async Task Should_throw_ArgumentOutOfRangeException_When_Guid_Is_Empty()
+    public async Task Should_throw_ValidationException_When_Guid_Is_Empty()
     {
         var dbContext = _injector.GetRequiredService<BookingDbContext>();
         var handler = _injector.GetRequiredService<GetGuestByKeyQueryHandler>();
 
         var cmd = new GetGuestByKeyQuery(Guid.Empty);
-        await Should.ThrowAsync<ArgumentOutOfRangeException>(() => handler.Handle(cmd, CancellationToken.None));
+        await Should.ThrowAsync<ValidationException>(() => handler.Handle(cmd, CancellationToken.None));
     }
 
     [Fact]

@@ -1,14 +1,8 @@
-using Booking.Core.Guests.Responses;
+using Booking.Core.Guests.ViewModels;
 using MediatR;
 
 namespace Booking.Core.Guests.Queries;
 
-public class GetGuestByKeyQuery : IRequest<GuestResponse>
-{
-    public Guid Id { get; set; }
-
-    public GetGuestByKeyQuery(Guid id)
-    {
-        Id = id;
-    }
-}
+public record GetGuestByKeyQuery(
+    Guid Id
+) : IRequest<GuestWithContactsResponse>;

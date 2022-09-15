@@ -68,8 +68,6 @@ public class SearchGuestsQueryHandlerTest : BaseTest
         var result = await handler.Handle(cmd, CancellationToken.None);
         var items = await result.Items.ToListAsync();
 
-        result.Take.ShouldBe(2);
-        result.Skip.ShouldBe(0);
         items.Count().ShouldBe(2);
     }
 
@@ -109,7 +107,7 @@ public class SearchGuestsQueryHandlerTest : BaseTest
         var first = DataSeed.First();
         var last = DataSeed.Last();
 
-        var cmd = new SearchGuestsQuery() { Sort = "name desc" };
+        var cmd = new SearchGuestsQuery() { SortBy = "name desc" };
         var result = await handler.Handle(cmd, CancellationToken.None);
         var items = await result.Items.ToListAsync();
 
@@ -124,7 +122,7 @@ public class SearchGuestsQueryHandlerTest : BaseTest
         var first = DataSeed.First();
         var last = DataSeed.Last();
 
-        var cmd = new SearchGuestsQuery() { Sort = "id asc" };
+        var cmd = new SearchGuestsQuery() { SortBy = "id asc" };
         var result = await handler.Handle(cmd, CancellationToken.None);
         var items = await result.Items.ToListAsync();
 
@@ -139,7 +137,7 @@ public class SearchGuestsQueryHandlerTest : BaseTest
         var first = DataSeed.First();
         var last = DataSeed.Last();
 
-        var cmd = new SearchGuestsQuery() { Sort = "prilimpimpim asc" };
+        var cmd = new SearchGuestsQuery() { SortBy = "prilimpimpim asc" };
         await Should.ThrowAsync<ParseException>(() => handler.Handle(cmd, CancellationToken.None));
     }
 }
