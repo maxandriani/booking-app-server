@@ -36,7 +36,7 @@ public abstract class SearchEntityQueryHandlerBase<TDbContext, TEntity, TRequest
             query = query.Take(take);
         }
 
-        if (request.Skip != null)
+        if (request?.Skip != null)
         {
             if (request?.Skip < 0) throw new ArgumentOutOfRangeException($"O parâmetro Skip não pode ser inferior a Zero.");
             var skip = request?.Skip ?? 0;

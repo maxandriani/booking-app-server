@@ -1,9 +1,10 @@
 using Booking.Core.Commons.Exceptions;
 using Booking.Core.Data;
+using Booking.Core.GuestContacts.Events;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Booking.Core.GuestContacts.Events;
+namespace Booking.Core.GuestContacts.Rules;
 
 public class GuestContactShallReferenceExistingGuest :
     INotificationHandler<CheckingCreateGuestContactCmdRules>,
