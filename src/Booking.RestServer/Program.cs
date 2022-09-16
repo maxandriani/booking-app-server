@@ -1,15 +1,18 @@
 using Booking.Core.Data;
 using Booking.Core.GuestContacts;
 using Booking.Core.GuestContacts.Commands;
-using Booking.Core.GuestContacts.Events;
-using Booking.Core.GuestContacts.Models;
 using Booking.Core.GuestContacts.Queries;
+using Booking.Core.GuestContacts.Rules;
 using Booking.Core.GuestContacts.Validations;
 using Booking.Core.Guests;
 using Booking.Core.Guests.Commands;
-using Booking.Core.Guests.Models;
 using Booking.Core.Guests.Queries;
 using Booking.Core.Guests.Validations;
+using Booking.Core.Places;
+using Booking.Core.Places.Commands;
+using Booking.Core.Places.Queries;
+using Booking.Core.Places.Rules;
+using Booking.Core.Places.Validations;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -37,10 +40,8 @@ builder.Services
         typeof(GetGuestContactByKeyQueryHandler),
         typeof(UpdateGuestContactCmdHandler),
 
-        typeof(GuestContactShallReferenceExistingGuest))
-
-    .AddScoped<IValidator<Guest>, GuestValidator>()
-    .AddScoped<IValidator<GuestContact>, GuestContactValidator>()
+        typeof(GuestContactShallReferenceExistingGuest),
+        typeof(PlaceNameShallBeUnique))
 
     .AddScoped<IValidator<CreateGuestWithContactsCmd>, CreateGuestWithContactsCmdValidator>()
     .AddScoped<IValidator<DeleteGuestCmd>, DeleteGuestCmdValidator>()
@@ -52,6 +53,11 @@ builder.Services
     .AddScoped<IValidator<SearchGuestContactQuery>, SearchGuestContactQueryValidator>()
     .AddScoped<IValidator<GetGuestContactByKeyQuery>, GetGuestContactByKeyQueryValidator>()
     .AddScoped<IValidator<UpdateGuestContactCmd>, UpdateGuestContactCmdValidator>()
+    .AddScoped<IValidator<CreatePlaceCmd>, CreatePlaceCmdValidator>()
+    .AddScoped<IValidator<DeletePlaceCmd>, DeletePlaceCmdValidator>()
+    .AddScoped<IValidator<SearchPlaceQuery>, SearchPlaceQueryValidator>()
+    .AddScoped<IValidator<GetPlaceByKeyQuery>, GetPlaceByKeyQueryValidator>()
+    .AddScoped<IValidator<UpdatePlaceCmd>, UpdatePlaceCmdValidator>()
 
     .AddScoped<CreateGuestCmdHandler>()
     .AddScoped<DeleteGuestCmdHandler>()
@@ -63,7 +69,13 @@ builder.Services
     .AddScoped<SearchGuestContactQueryHandler>()
     .AddScoped<GetGuestContactByKeyQueryHandler>()
     .AddScoped<UpdateGuestContactCmdHandler>()
-    .AddScoped<GuestContactShallReferenceExistingGuest>();
+    .AddScoped<GuestContactShallReferenceExistingGuest>()
+    .AddScoped<CreatePlaceCmdHandler>()
+    .AddScoped<DeletePlaceCmdHandler>()
+    .AddScoped<SearchPlaceQueryHandler>()
+    .AddScoped<GetPlaceByKeyQueryHandler>()
+    .AddScoped<UpdatePlaceCmdHandler>()
+    .AddScoped<PlaceNameShallBeUnique>();
 
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(config =>
