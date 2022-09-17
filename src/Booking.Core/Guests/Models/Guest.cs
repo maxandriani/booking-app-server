@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using Booking.Core.GuestContacts.Models;
+using Booking.Core.Bookings.Models;
 
 namespace Booking.Core.Guests.Models;
 
@@ -23,6 +24,7 @@ public class Guest
     public Guid Id { get; set; } = Guid.NewGuid();
     private string _name = string.Empty;
     public string Name { get => _name; set => _name = value.Trim(); }
+    
     private List<GuestContact> _contacts = new();
     public IReadOnlyList<GuestContact> Contacts
     {
@@ -36,4 +38,6 @@ public class Guest
         _contacts.Add(contact);
         return this;
     }
+
+    public List<Bookings.Models.Booking> Bookings { get; set; } = new();
 }
