@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{ED08CA3F-A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.Core.Tests", "test\Booking.Core.Tests\Booking.Core.Tests.csproj", "{969A91C6-EBF0-49AD-9814-EA9C3D8EBB86}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.Core.Postgres", "src\Booking.Core.Postgres\Booking.Core.Postgres.csproj", "{5902F9C0-A871-4B87-A2D3-D7965AD8BC48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,10 +36,15 @@ Global
 		{969A91C6-EBF0-49AD-9814-EA9C3D8EBB86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{969A91C6-EBF0-49AD-9814-EA9C3D8EBB86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{969A91C6-EBF0-49AD-9814-EA9C3D8EBB86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5902F9C0-A871-4B87-A2D3-D7965AD8BC48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5902F9C0-A871-4B87-A2D3-D7965AD8BC48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5902F9C0-A871-4B87-A2D3-D7965AD8BC48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5902F9C0-A871-4B87-A2D3-D7965AD8BC48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{114BF5FD-F2A9-4982-8224-1824A1C22C1A} = {DE9534F5-ADEF-47D6-B729-CD1E7932CA46}
 		{BBA1280F-BF4E-46D6-828B-E668E3076FCC} = {DE9534F5-ADEF-47D6-B729-CD1E7932CA46}
 		{969A91C6-EBF0-49AD-9814-EA9C3D8EBB86} = {ED08CA3F-A936-4545-8B3E-405319F6CF5C}
+		{5902F9C0-A871-4B87-A2D3-D7965AD8BC48} = {DE9534F5-ADEF-47D6-B729-CD1E7932CA46}
 	EndGlobalSection
 EndGlobal

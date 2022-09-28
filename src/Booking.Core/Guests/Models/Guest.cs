@@ -39,5 +39,5 @@ public class Guest
         return this;
     }
 
-    public List<Bookings.Models.Booking> Bookings { get; set; } = new();
+    public List<BookingGuest> Bookings { get; set; } = new();
 }

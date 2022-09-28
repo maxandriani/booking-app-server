@@ -3,5 +3,8 @@
         "Mediat",
         "Shouldly"
     ],
-    "cSpell.language": "en, pt_BR"
+    "cSpell.language": "en, pt_BR",
+    "yaml.schemas": {
+        "kubernetes://schema/apps/v1@deployment": "file:///c%3A/Users/max.andriani/Projetos/booking-app-server/.infra/environment.yml"
+    }
 }

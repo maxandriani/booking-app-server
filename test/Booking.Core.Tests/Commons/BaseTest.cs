@@ -17,6 +17,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Booking.Core.Tests.Commons;
 
@@ -24,6 +25,7 @@ public abstract class BaseTest
 {
     protected readonly IServiceProvider _rootInjector;
     protected readonly IServiceProvider _injector;
+    protected readonly IMediator _mediator;
 
     public BaseTest()
     {
@@ -32,7 +34,13 @@ public abstract class BaseTest
 
         services
             // .AddSingleton(configuration)
-            .AddDbContextFactory<BookingDbContext>(options => options.UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()))
+            .AddDbContextFactory<BookingDbContext>(options =>
+            {
+                options.UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString());
+                options.EnableDetailedErrors(true);
+                options.EnableSensitiveDataLogging(true);
+                options.LogTo(Console.WriteLine, LogLevel.Information);
+            })
             .AddLogging()
             .AddMediatR(
                 typeof(CreateGuestCmdHandler),
@@ -45,13 +53,14 @@ public abstract class BaseTest
                 typeof(SearchGuestContactQueryHandler),
                 typeof(GetGuestContactByKeyQueryHandler),
                 typeof(UpdateGuestContactCmdHandler),
-                typeof(DeleteGuestContactCmdHandler),
-                typeof(SearchGuestContactQueryHandler),
-                typeof(GetGuestContactByKeyQueryHandler),
-                typeof(UpdateGuestContactCmdHandler),
+                typeof(DeletePlaceCmdHandler),
+                typeof(SearchPlaceQueryHandler),
+                typeof(GetPlaceByKeyQueryHandler),
+                typeof(UpdatePlaceCmdHandler),
+                typeof(UpdatePlaceCmdHandler),
 
                 typeof(GuestContactShallReferenceExistingGuest),
-                typeof(PlaceNameShallBeUnique))
+                typeof(SearchAvailablePlacesForBookingQueryHandler))
 
             .AddScoped<IValidator<CreateGuestWithContactsCmd>, CreateGuestWithContactsCmdValidator>()
             .AddScoped<IValidator<DeleteGuestCmd>, DeleteGuestCmdValidator>()
@@ -68,6 +77,7 @@ public abstract class BaseTest
             .AddScoped<IValidator<SearchPlaceQuery>, SearchPlaceQueryValidator>()
             .AddScoped<IValidator<GetPlaceByKeyQuery>, GetPlaceByKeyQueryValidator>()
             .AddScoped<IValidator<UpdatePlaceCmd>, UpdatePlaceCmdValidator>()
+            .AddScoped<IValidator<SearchAvailablePlacesForBookingQuery>, SearchAvailablePlacesForBookingQueryValidator>()
 
             .AddScoped<CreateGuestCmdHandler>()
             .AddScoped<DeleteGuestCmdHandler>()
@@ -85,9 +95,11 @@ public abstract class BaseTest
             .AddScoped<SearchPlaceQueryHandler>()
             .AddScoped<GetPlaceByKeyQueryHandler>()
             .AddScoped<UpdatePlaceCmdHandler>()
-            .AddScoped<PlaceNameShallBeUnique>();
+            .AddScoped<PlaceNameShallBeUnique>()
+            .AddScoped<SearchAvailablePlacesForBookingQueryHandler>();
 
         _rootInjector = services.BuildServiceProvider();
         _injector = _rootInjector.CreateScope().ServiceProvider;
+        _mediator = _injector.GetRequiredService<IMediator>();
     }
 }

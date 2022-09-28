@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pg-conf
+data:
+  POSTGRES_DB: booking
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pg-db
+spec:
+  type: LoadBalancer
+  selector:
+    app: pg-db
+  ports:
+  - port: 5432
+    targetPort: pg-db-port
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pg-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pg-db
+  template:
+    metadata:
+      labels:
+        app: pg-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5432
+          name: pg-db-port
+        envFrom:
+          - configMapRef:
+              name: pg-conf
+          - secretRef:
+              name: pg-sec
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: postgres-volume
+      volumes:
+        - name: postgres-volume
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 2Gi

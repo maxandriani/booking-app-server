@@ -25,7 +25,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddDbContextFactory<BookingDbContext>(options =>
     {
-        options.UseInMemoryDatabase(databaseName: "Booking.RestServer");
+        options
+            .UseNpgsql(builder.Configuration.GetConnectionString("BookingDb"), b => b.MigrationsAssembly("Booking.Core.Postgres"));
     })
     .AddLogging()
     .AddMediatR(
@@ -58,6 +59,7 @@ builder.Services
     .AddScoped<IValidator<SearchPlaceQuery>, SearchPlaceQueryValidator>()
     .AddScoped<IValidator<GetPlaceByKeyQuery>, GetPlaceByKeyQueryValidator>()
     .AddScoped<IValidator<UpdatePlaceCmd>, UpdatePlaceCmdValidator>()
+    .AddScoped<IValidator<SearchAvailablePlacesForBookingQuery>, SearchAvailablePlacesForBookingQueryValidator>()
 
     .AddScoped<CreateGuestCmdHandler>()
     .AddScoped<DeleteGuestCmdHandler>()
@@ -75,6 +77,7 @@ builder.Services
     .AddScoped<SearchPlaceQueryHandler>()
     .AddScoped<GetPlaceByKeyQueryHandler>()
     .AddScoped<UpdatePlaceCmdHandler>()
+    .AddScoped<SearchAvailablePlacesForBookingQueryHandler>()
     .AddScoped<PlaceNameShallBeUnique>();
 
 builder.Services.AddControllers();

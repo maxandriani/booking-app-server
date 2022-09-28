@@ -29,6 +29,6 @@ public class SearchPlaceQueryHandler :
         return query;
     }
 
-    protected override PlaceResponse MapToResponse(Place entity)
-        => new PlaceResponse(entity);
+    protected override IQueryable<PlaceResponse> MapToResponse(IQueryable<Place> query)
+        => query.Select(x => new PlaceResponse(x));
 }

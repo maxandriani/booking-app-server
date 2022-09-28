@@ -6,8 +6,13 @@ public static class BookingDbContextExtensions
 {
     public static IQueryable<Bookings.Models.Booking> WhereOverlapBooking(this IQueryable<Bookings.Models.Booking> query, DateTime checkIn, DateTime checkOut)
         => query.Where(
-            q => (q.CheckIn >= checkIn && q.CheckOut <= checkIn || q.CheckIn >= checkOut && q.CheckOut <= checkOut)
-            && q.Status == BookingStatusEnum.Confirmed);
+            q => (
+                    q.CheckIn.Date >= checkIn.Date && q.CheckIn.Date < checkOut.AddDays(1).Date
+                    ||
+                    q.CheckOut.Date >= checkIn.Date && q.CheckOut.Date < checkOut.AddDays(1).Date
+                 )
+                 &&
+                 q.Status == BookingStatusEnum.Confirmed);
 
     public static IQueryable<Bookings.Models.Booking> WhereOverlapBooking(this IQueryable<Bookings.Models.Booking> query, DateTime checkIn, DateTime checkOut, Guid placeId)
         => query

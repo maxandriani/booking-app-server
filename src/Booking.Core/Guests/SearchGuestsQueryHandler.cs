@@ -36,6 +36,6 @@ public class SearchGuestsQueryHandler :
         return query;
     }
 
-    protected override GuestWithContactsResponse MapToResponse(Guest entity)
-        => new GuestWithContactsResponse(entity);
+    protected override IQueryable<GuestWithContactsResponse> MapToResponse(IQueryable<Guest> query)
+        => query.Select(entity => new GuestWithContactsResponse(entity));
 }
