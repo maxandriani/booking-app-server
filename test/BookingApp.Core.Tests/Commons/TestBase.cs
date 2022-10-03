@@ -1,5 +1,6 @@
 using BookingApp.Core.Bookings;
 using BookingApp.Core.Bookings.Commands;
+using BookingApp.Core.Bookings.Rules;
 using BookingApp.Core.Bookings.Validations;
 using BookingApp.Core.Data;
 using BookingApp.Core.GuestContacts;
@@ -85,6 +86,7 @@ public abstract class TestBase
             .AddScoped<IValidator<SearchAvailablePlacesForBookingQuery>, SearchAvailablePlacesForBookingQueryValidator>()
             .AddScoped<IValidator<CreateBookingCmd>, CreateBookingCmdValidator>()
             .AddScoped<IValidator<AddBookingGuestCmd>, AddBookingGuestCmdValidator>()
+            .AddScoped<IValidator<CancelBookingCmd>, CancelBookingCmdValidator>()
 
             .AddScoped<CreateGuestCmdHandler>()
             .AddScoped<DeleteGuestCmdHandler>()
@@ -105,7 +107,9 @@ public abstract class TestBase
             .AddScoped<PlaceNameShallBeUnique>()
             .AddScoped<SearchAvailablePlacesForBookingQueryHandler>()
             .AddScoped<CreateBookingCmdHandler>()
-            .AddScoped<AddBookingGuestCmdHandler>();
+            .AddScoped<AddBookingGuestCmdHandler>()
+            .AddScoped<CancelBookingCmdHandler>()
+            .AddScoped<BookingShallBeConfirmed>();
 
         _rootInjector = services.BuildServiceProvider();
         _injector = _rootInjector.CreateScope().ServiceProvider;

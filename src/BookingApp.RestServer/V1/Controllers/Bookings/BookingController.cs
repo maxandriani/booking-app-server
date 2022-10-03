@@ -69,10 +69,10 @@ public class BookingController : ControllerBase
 
     [Produces("application/json")]
     [ProducesResponseType(204)]
-    [HttpPost("{guestId:guid}/cancel")]
-    public async Task<IActionResult> Cancel(Guid bookingId, Guid guestId)
+    [HttpPost("{bookingId:guid}/cancel")]
+    public async Task<IActionResult> Cancel(Guid bookingId)
     {
-        await _mediator.Send(new CancelBookingCmd(bookingId, guestId));
+        await _mediator.Send(new CancelBookingCmd(bookingId));
         return NoContent();
     }
 

@@ -1,3 +1,7 @@
+using BookingApp.Core.Bookings;
+using BookingApp.Core.Bookings.Commands;
+using BookingApp.Core.Bookings.Rules;
+using BookingApp.Core.Bookings.Validations;
 using BookingApp.Core.Data;
 using BookingApp.Core.GuestContacts;
 using BookingApp.Core.GuestContacts.Commands;
@@ -40,9 +44,13 @@ builder.Services
         typeof(SearchGuestContactQueryHandler),
         typeof(GetGuestContactByKeyQueryHandler),
         typeof(UpdateGuestContactCmdHandler),
+        typeof(CreateBookingCmdHandler),
+        typeof(CancelBookingCmdHandler),
+        typeof(AddBookingGuestCmdHandler),
 
         typeof(GuestContactShallReferenceExistingGuest),
-        typeof(PlaceNameShallBeUnique))
+        typeof(PlaceNameShallBeUnique),
+        typeof(BookingShallBeConfirmed))
 
     .AddScoped<IValidator<CreateGuestWithContactsCmd>, CreateGuestWithContactsCmdValidator>()
     .AddScoped<IValidator<DeleteGuestCmd>, DeleteGuestCmdValidator>()
@@ -60,6 +68,9 @@ builder.Services
     .AddScoped<IValidator<GetPlaceByKeyQuery>, GetPlaceByKeyQueryValidator>()
     .AddScoped<IValidator<UpdatePlaceCmd>, UpdatePlaceCmdValidator>()
     .AddScoped<IValidator<SearchAvailablePlacesForBookingQuery>, SearchAvailablePlacesForBookingQueryValidator>()
+    .AddScoped<IValidator<CreateBookingCmd>, CreateBookingCmdValidator>()
+    .AddScoped<IValidator<AddBookingGuestCmd>, AddBookingGuestCmdValidator>()
+    .AddScoped<IValidator<CancelBookingCmd>, CancelBookingCmdValidator>()
 
     .AddScoped<CreateGuestCmdHandler>()
     .AddScoped<DeleteGuestCmdHandler>()
@@ -78,7 +89,11 @@ builder.Services
     .AddScoped<GetPlaceByKeyQueryHandler>()
     .AddScoped<UpdatePlaceCmdHandler>()
     .AddScoped<SearchAvailablePlacesForBookingQueryHandler>()
-    .AddScoped<PlaceNameShallBeUnique>();
+    .AddScoped<PlaceNameShallBeUnique>()
+    .AddScoped<CreateBookingCmdHandler>()
+    .AddScoped<AddBookingGuestCmdHandler>()
+    .AddScoped<CancelBookingCmdHandler>()
+    .AddScoped<BookingShallBeConfirmed>();
 
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(config =>
