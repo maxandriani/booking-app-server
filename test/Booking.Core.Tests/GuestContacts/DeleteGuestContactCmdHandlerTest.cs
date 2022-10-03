@@ -11,7 +11,7 @@ using FluentValidation;
 
 namespace Booking.Core.Tests.GuestContacts;
 
-public class DeleteGuestContactCmdHandlerTest : BaseTest
+public class DeleteGuestContactCmdHandlerTest : TestBase
 {
     [Fact]
     public async Task Should_throw_ResourceNotFoundException_When_Guest_Does_Not_Exists()

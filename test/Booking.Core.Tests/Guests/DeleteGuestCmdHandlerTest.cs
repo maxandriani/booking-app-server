@@ -10,7 +10,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.Guests;
 
-public class DeleteGuestCmdHandlerTest : BaseTest
+public class DeleteGuestCmdHandlerTest : TestBase
 {
     [Fact]
     public async Task Should_throw_ResourceNotFoundException_When_Guest_Does_Not_Exists()

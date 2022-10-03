@@ -10,7 +10,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.Places;
 
-public class SearchPlacesQueryHandlerTest : BaseTest
+public class SearchPlacesQueryHandlerTest : TestBase
 {
     private readonly static Place[] DataSeed = new[] {
         new Place() { Id = new Guid("434db615-04f4-43ff-b881-415903111def"), Address = "Jona's Place 1", Name = "Jonas 1" },

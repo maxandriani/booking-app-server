@@ -10,9 +10,9 @@ public class CreateBookingCmdValidator : AbstractValidator<CreateBookingCmd>
         RuleFor(q => q.PlaceId).NotEmpty();
         RuleFor(q => q.CheckIn)
             .NotEmpty()
-            .GreaterThanOrEqualTo(p => p.CheckOut);
+            .LessThan(p => p.CheckOut.Date);
         RuleFor(q => q.CheckOut)
             .NotEmpty()
-            .LessThanOrEqualTo(p => p.CheckIn);
+            .GreaterThan(p => p.CheckIn.Date);
     }
 }

@@ -10,7 +10,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.Guests;
 
-public class SearchGuestsQueryHandlerTest : BaseTest
+public class SearchGuestsQueryHandlerTest : TestBase
 {
     private readonly static Guest[] DataSeed = new[] {
         new Guest() { Id = new Guid("434db615-04f4-43ff-b881-415903111def"), Name = "Jonas 1" },

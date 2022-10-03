@@ -10,7 +10,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.Places;
 
-public class DeletePlaceCmdHandlerTest : BaseTest
+public class DeletePlaceCmdHandlerTest : TestBase
 {
     [Fact]
     public async Task Should_throw_ResourceNotFoundException_When_Place_Does_Not_Exists()

@@ -4,5 +4,6 @@ namespace Booking.Core.Bookings.Commands;
 
 public record AddBookingGuestCmd(
     Guid BookingId,
-    Guid GuestId
+    Guid GuestId,
+    bool? IsPrimary = false
 ) : IRequest;

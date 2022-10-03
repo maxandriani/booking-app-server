@@ -10,7 +10,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.Guests;
 
-public class CreateGuestCmdHandlerTest : BaseTest
+public class CreateGuestCmdHandlerTest : TestBase
 {
 
     public static List<object[]> Should_throw_ValidationException_When_Guest_Name_Less_Than_3_Data = new() {

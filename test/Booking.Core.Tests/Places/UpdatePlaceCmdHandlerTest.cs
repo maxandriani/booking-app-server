@@ -10,7 +10,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.Places;
 
-public class UpdatePlaceCmdHandlerTest : BaseTest
+public class UpdatePlaceCmdHandlerTest : TestBase
 {
     [Fact]
     public async Task Should_throw_ValidationException_When_Guid_Is_Empty()

@@ -11,7 +11,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.Places;
 
-public class GetPlaceByKeyQueryHandlerTest : BaseTest
+public class GetPlaceByKeyQueryHandlerTest : TestBase
 {
     [Fact]
     public async Task Should_throw_ValidationException_When_Guid_Is_Empty()

@@ -9,13 +9,14 @@ public class Booking
     {
     }
 
-    public Booking(Guid id, Guid placeId, DateTime checkIn, DateTime checkOut, BookingStatusEnum status)
+    public Booking(Guid id, Guid placeId, DateTime checkIn, DateTime checkOut, string? description = null, BookingStatusEnum? status = null)
     {
         Id = id;
         PlaceId = placeId;
         CheckIn = checkIn;
         CheckOut = checkOut;
-        Status = status;
+        Description = description;
+        if (status != null) Status = status.Value;
     }
 
     public Guid Id { get; set; }
@@ -23,7 +24,7 @@ public class Booking
     public Place? Place { get; set; }
     public DateTime CheckIn { get; set; } = DateTime.UtcNow;
     public DateTime CheckOut { get; set; } = DateTime.UtcNow;
-    public BookingStatusEnum Status { get; set; } = BookingStatusEnum.Unknown;
+    public BookingStatusEnum Status { get; set; } = BookingStatusEnum.Pending;
     public string? Description { get; set; } = null;
 
     private List<BookingGuest> _guests = new();

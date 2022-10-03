@@ -9,7 +9,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.Places;
 
-public class SearchAvailablePlacesForBookingQueryHandlerTests : BaseTest
+public class SearchAvailablePlacesForBookingQueryHandlerTests : TestBase
 {
     private static List<Place> PLACES = new() {
         new Place(new Guid("7fd96d44-b61f-4d1f-bba0-d60ac8488875"), "Jonas House 1", "Jona's Street 1"),
@@ -17,28 +17,27 @@ public class SearchAvailablePlacesForBookingQueryHandlerTests : BaseTest
         new Place(new Guid("2f9aae96-1026-4d76-b8ee-431eb2d32687"), "Jonas House 3", "Jona's Street 3"),
         new Place(new Guid("de2b05b4-de6c-4e4c-9ffb-6361be0e7425"), "Jonas House 4", "Jona's Street 4")
     };
-    private static List<Bookings.Models.Booking> CONFIRMED_BOOKINGS = new() {
-        new Bookings.Models.Booking(new Guid("81765f35-d720-444c-8007-582e322099af"), new Guid("7fd96d44-b61f-4d1f-bba0-d60ac8488875"), new DateTime(2022, 10, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 10, 10, 0, 0, 0, DateTimeKind.Utc), BookingStatusEnum.Confirmed),
-        new Bookings.Models.Booking(new Guid("e89d0108-7f9d-45b5-9646-dcca4a62e723"), new Guid("7fd96d44-b61f-4d1f-bba0-d60ac8488875"), new DateTime(2022, 10, 11, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 10, 19, 0, 0, 0, DateTimeKind.Utc), BookingStatusEnum.Confirmed),
-        new Bookings.Models.Booking(new Guid("66062aab-1270-45cb-b5f1-6288006298db"), new Guid("7fd96d44-b61f-4d1f-bba0-d60ac8488875"), new DateTime(2022, 10, 20, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 10, 30, 0, 0, 0, DateTimeKind.Utc), BookingStatusEnum.Confirmed),
-        new Bookings.Models.Booking(new Guid("4abbd580-00d2-42ae-90ee-62e9d4d2910e"), new Guid("fb2709c2-13a4-4559-83cd-a340f3e53e0b"), new DateTime(2022, 10, 5, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 10, 20, 0, 0, 0, DateTimeKind.Utc), BookingStatusEnum.Confirmed),
-        new Bookings.Models.Booking(new Guid("8c34bfb5-07db-4b2f-a871-4c0803b356ae"), new Guid("2f9aae96-1026-4d76-b8ee-431eb2d32687"), new DateTime(2022, 10, 11, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 10, 25, 0, 0, 0, DateTimeKind.Utc), BookingStatusEnum.Confirmed),
-        new Bookings.Models.Booking(new Guid("22038429-6860-456d-aabf-dc8467ad7da1"), new Guid("de2b05b4-de6c-4e4c-9ffb-6361be0e7425"), new DateTime(2022, 10, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 10, 11, 0, 0, 0, DateTimeKind.Utc), BookingStatusEnum.Confirmed)
+    private static List<Booking.Core.Bookings.Models.Booking> CONFIRMED_BOOKINGS = new() {
+        new Booking.Core.Bookings.Models.Booking(new Guid("81765f35-d720-444c-8007-582e322099af"), new Guid("7fd96d44-b61f-4d1f-bba0-d60ac8488875"), new DateTime(2022, 10, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 10, 10, 0, 0, 0, DateTimeKind.Utc), null, BookingStatusEnum.Confirmed),
+        new Booking.Core.Bookings.Models.Booking(new Guid("e89d0108-7f9d-45b5-9646-dcca4a62e723"), new Guid("7fd96d44-b61f-4d1f-bba0-d60ac8488875"), new DateTime(2022, 10, 11, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 10, 19, 0, 0, 0, DateTimeKind.Utc), null, BookingStatusEnum.Confirmed),
+        new Booking.Core.Bookings.Models.Booking(new Guid("66062aab-1270-45cb-b5f1-6288006298db"), new Guid("7fd96d44-b61f-4d1f-bba0-d60ac8488875"), new DateTime(2022, 10, 20, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 10, 30, 0, 0, 0, DateTimeKind.Utc), null, BookingStatusEnum.Confirmed),
+        new Booking.Core.Bookings.Models.Booking(new Guid("4abbd580-00d2-42ae-90ee-62e9d4d2910e"), new Guid("fb2709c2-13a4-4559-83cd-a340f3e53e0b"), new DateTime(2022, 10, 5, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 10, 20, 0, 0, 0, DateTimeKind.Utc), null, BookingStatusEnum.Confirmed),
+        new Booking.Core.Bookings.Models.Booking(new Guid("8c34bfb5-07db-4b2f-a871-4c0803b356ae"), new Guid("2f9aae96-1026-4d76-b8ee-431eb2d32687"), new DateTime(2022, 10, 11, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 10, 25, 0, 0, 0, DateTimeKind.Utc), null, BookingStatusEnum.Confirmed),
+        new Booking.Core.Bookings.Models.Booking(new Guid("22038429-6860-456d-aabf-dc8467ad7da1"), new Guid("de2b05b4-de6c-4e4c-9ffb-6361be0e7425"), new DateTime(2022, 10, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 10, 11, 0, 0, 0, DateTimeKind.Utc), null, BookingStatusEnum.Confirmed)
     };
-    private static List<Bookings.Models.Booking> UNCONFIRMED_BOOKINGS = new() {
-        new Bookings.Models.Booking(new Guid("727cb81c-af96-44b3-884e-6f5af6058125"), new Guid("7fd96d44-b61f-4d1f-bba0-d60ac8488875"), new DateTime(2023, 10, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2023, 11, 10, 0, 0, 0, DateTimeKind.Utc), BookingStatusEnum.Pending),
-        new Bookings.Models.Booking(new Guid("9440b551-8fbc-4d28-af1d-e8e190fd35a2"), new Guid("7fd96d44-b61f-4d1f-bba0-d60ac8488875"), new DateTime(2023, 10, 11, 0, 0, 0, DateTimeKind.Utc), new DateTime(2023, 11, 19, 0, 0, 0, DateTimeKind.Utc), BookingStatusEnum.Pending),
-        new Bookings.Models.Booking(new Guid("5d606613-1cb6-4266-9b75-7b781fad992c"), new Guid("7fd96d44-b61f-4d1f-bba0-d60ac8488875"), new DateTime(2023, 10, 20, 0, 0, 0, DateTimeKind.Utc), new DateTime(2023, 11, 30, 0, 0, 0, DateTimeKind.Utc), BookingStatusEnum.Pending),
-        new Bookings.Models.Booking(new Guid("852049e3-2539-4465-9de5-2a251ffaffef"), new Guid("fb2709c2-13a4-4559-83cd-a340f3e53e0b"), new DateTime(2023, 10, 5, 0, 0, 0, DateTimeKind.Utc), new DateTime(2023, 11, 20, 0, 0, 0, DateTimeKind.Utc), BookingStatusEnum.Pending),
-        new Bookings.Models.Booking(new Guid("26999c34-9bd0-453c-bffb-9367c2c19c52"), new Guid("2f9aae96-1026-4d76-b8ee-431eb2d32687"), new DateTime(2023, 10, 11, 0, 0, 0, DateTimeKind.Utc), new DateTime(2023, 11, 25, 0, 0, 0, DateTimeKind.Utc), BookingStatusEnum.Pending),
-        new Bookings.Models.Booking(new Guid("a8897684-4bd0-4e0c-8ca0-4d3d78fdc3f3"), new Guid("de2b05b4-de6c-4e4c-9ffb-6361be0e7425"), new DateTime(2023, 10, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2023, 11, 11, 0, 0, 0, DateTimeKind.Utc), BookingStatusEnum.Pending)
+    private static List<Booking.Core.Bookings.Models.Booking> UNCONFIRMED_BOOKINGS = new() {
+        new Booking.Core.Bookings.Models.Booking(new Guid("727cb81c-af96-44b3-884e-6f5af6058125"), new Guid("7fd96d44-b61f-4d1f-bba0-d60ac8488875"), new DateTime(2023, 10, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2023, 11, 10, 0, 0, 0, DateTimeKind.Utc), null, BookingStatusEnum.Pending),
+        new Booking.Core.Bookings.Models.Booking(new Guid("9440b551-8fbc-4d28-af1d-e8e190fd35a2"), new Guid("7fd96d44-b61f-4d1f-bba0-d60ac8488875"), new DateTime(2023, 10, 11, 0, 0, 0, DateTimeKind.Utc), new DateTime(2023, 11, 19, 0, 0, 0, DateTimeKind.Utc), null, BookingStatusEnum.Pending),
+        new Booking.Core.Bookings.Models.Booking(new Guid("5d606613-1cb6-4266-9b75-7b781fad992c"), new Guid("7fd96d44-b61f-4d1f-bba0-d60ac8488875"), new DateTime(2023, 10, 20, 0, 0, 0, DateTimeKind.Utc), new DateTime(2023, 11, 30, 0, 0, 0, DateTimeKind.Utc), null, BookingStatusEnum.Pending),
+        new Booking.Core.Bookings.Models.Booking(new Guid("852049e3-2539-4465-9de5-2a251ffaffef"), new Guid("fb2709c2-13a4-4559-83cd-a340f3e53e0b"), new DateTime(2023, 10, 5, 0, 0, 0, DateTimeKind.Utc), new DateTime(2023, 11, 20, 0, 0, 0, DateTimeKind.Utc), null, BookingStatusEnum.Pending),
+        new Booking.Core.Bookings.Models.Booking(new Guid("26999c34-9bd0-453c-bffb-9367c2c19c52"), new Guid("2f9aae96-1026-4d76-b8ee-431eb2d32687"), new DateTime(2023, 10, 11, 0, 0, 0, DateTimeKind.Utc), new DateTime(2023, 11, 25, 0, 0, 0, DateTimeKind.Utc), null, BookingStatusEnum.Pending),
+        new Booking.Core.Bookings.Models.Booking(new Guid("a8897684-4bd0-4e0c-8ca0-4d3d78fdc3f3"), new Guid("de2b05b4-de6c-4e4c-9ffb-6361be0e7425"), new DateTime(2023, 10, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2023, 11, 11, 0, 0, 0, DateTimeKind.Utc), null, BookingStatusEnum.Pending)
     };
-    private static List<Bookings.Models.Booking> ALL_BOOKINGS = CONFIRMED_BOOKINGS.Union(UNCONFIRMED_BOOKINGS).ToList();
+    private static List<Booking.Core.Bookings.Models.Booking> ALL_BOOKINGS = CONFIRMED_BOOKINGS.Union(UNCONFIRMED_BOOKINGS).ToList();
 
     public SearchAvailablePlacesForBookingQueryHandlerTests() : base()
     {
         var db = _injector.GetRequiredService<BookingDbContext>();
-        db.Database.EnsureDeleted();
         db.AddRange(PLACES);
         db.AddRange(ALL_BOOKINGS);
         db.SaveChanges();

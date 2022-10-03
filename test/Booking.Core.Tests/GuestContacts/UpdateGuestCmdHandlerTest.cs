@@ -11,7 +11,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.Guests;
 
-public class UpdateGuestContactCmdHandlerTest : BaseTest
+public class UpdateGuestContactCmdHandlerTest : TestBase
 {
 
     [Fact]

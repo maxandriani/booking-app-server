@@ -1,3 +1,6 @@
+using Booking.Core.Bookings;
+using Booking.Core.Bookings.Commands;
+using Booking.Core.Bookings.Validations;
 using Booking.Core.Data;
 using Booking.Core.GuestContacts;
 using Booking.Core.GuestContacts.Commands;
@@ -21,13 +24,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Booking.Core.Tests.Commons;
 
-public abstract class BaseTest
+public abstract class TestBase
 {
     protected readonly IServiceProvider _rootInjector;
     protected readonly IServiceProvider _injector;
     protected readonly IMediator _mediator;
 
-    public BaseTest()
+    public TestBase()
     {
         // var configuration = new ConfigurationBuilder().Build();
         var services = new ServiceCollection();
@@ -58,6 +61,8 @@ public abstract class BaseTest
                 typeof(GetPlaceByKeyQueryHandler),
                 typeof(UpdatePlaceCmdHandler),
                 typeof(UpdatePlaceCmdHandler),
+                typeof(AddBookingGuestCmdHandler),
+                typeof(CreateBookingCmdHandler),
 
                 typeof(GuestContactShallReferenceExistingGuest),
                 typeof(SearchAvailablePlacesForBookingQueryHandler))
@@ -78,6 +83,8 @@ public abstract class BaseTest
             .AddScoped<IValidator<GetPlaceByKeyQuery>, GetPlaceByKeyQueryValidator>()
             .AddScoped<IValidator<UpdatePlaceCmd>, UpdatePlaceCmdValidator>()
             .AddScoped<IValidator<SearchAvailablePlacesForBookingQuery>, SearchAvailablePlacesForBookingQueryValidator>()
+            .AddScoped<IValidator<CreateBookingCmd>, CreateBookingCmdValidator>()
+            .AddScoped<IValidator<AddBookingGuestCmd>, AddBookingGuestCmdValidator>()
 
             .AddScoped<CreateGuestCmdHandler>()
             .AddScoped<DeleteGuestCmdHandler>()
@@ -96,10 +103,13 @@ public abstract class BaseTest
             .AddScoped<GetPlaceByKeyQueryHandler>()
             .AddScoped<UpdatePlaceCmdHandler>()
             .AddScoped<PlaceNameShallBeUnique>()
-            .AddScoped<SearchAvailablePlacesForBookingQueryHandler>();
+            .AddScoped<SearchAvailablePlacesForBookingQueryHandler>()
+            .AddScoped<CreateBookingCmdHandler>()
+            .AddScoped<AddBookingGuestCmdHandler>();
 
         _rootInjector = services.BuildServiceProvider();
         _injector = _rootInjector.CreateScope().ServiceProvider;
         _mediator = _injector.GetRequiredService<IMediator>();
+        _injector.GetRequiredService<BookingDbContext>().Database.EnsureDeleted();
     }
 }

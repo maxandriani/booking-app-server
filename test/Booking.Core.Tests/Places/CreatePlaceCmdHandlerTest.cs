@@ -9,7 +9,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.Places;
 
-public class CreatePlaceCmdHandlerTest : BaseTest
+public class CreatePlaceCmdHandlerTest : TestBase
 {
 
     public static List<object[]> Should_throw_ValidationException_When_Place_Name_Less_Than_3_Data = new() {

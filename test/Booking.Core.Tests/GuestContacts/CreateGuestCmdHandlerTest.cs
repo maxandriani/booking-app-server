@@ -11,7 +11,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.GuestContacts;
 
-public class CreateGuestContactCmdHandlerTest : BaseTest
+public class CreateGuestContactCmdHandlerTest : TestBase
 {
     public static List<object[]> Should_throw_ValidationException_When_GuestContact_Name_is_Empty_Data = new() {
         new object[] { new Guest(new Guid("a7475ef3-2483-4cff-ac30-984c90188cc9"), "abc"), new CreateGuestContactCmd(new Guid("a7475ef3-2483-4cff-ac30-984c90188cc9"), GuestContactTypeEnum.Email, "") },

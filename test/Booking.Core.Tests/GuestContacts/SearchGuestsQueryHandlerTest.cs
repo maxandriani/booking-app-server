@@ -12,7 +12,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.GuestContacts;
 
-public class SearchGuestContactQueryHandlerTest : BaseTest
+public class SearchGuestContactQueryHandlerTest : TestBase
 {
 
     private readonly static Guest[] DataSeed = new[] {

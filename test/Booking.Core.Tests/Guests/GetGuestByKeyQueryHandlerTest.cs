@@ -10,7 +10,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.Guests;
 
-public class GetGuestByKeyQueryHandlerTest : BaseTest
+public class GetGuestByKeyQueryHandlerTest : TestBase
 {
     [Fact]
     public async Task Should_throw_ValidationException_When_Guid_Is_Empty()

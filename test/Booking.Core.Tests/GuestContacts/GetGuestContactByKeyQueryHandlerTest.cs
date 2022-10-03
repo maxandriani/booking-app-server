@@ -11,7 +11,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.GuestContacts;
 
-public class GetGuestContactByKeyQueryHandlerTest : BaseTest
+public class GetGuestContactByKeyQueryHandlerTest : TestBase
 {
     [Fact]
     public async Task Should_throw_ValidationException_When_Id_Is_Empty()

@@ -10,7 +10,7 @@ using Shouldly;
 
 namespace Booking.Core.Tests.Guests;
 
-public class UpdateGuestCmdHandlerTest : BaseTest
+public class UpdateGuestCmdHandlerTest : TestBase
 {
     [Fact]
     public async Task Should_throw_ValidationException_When_Request_Body_Is_Null()
