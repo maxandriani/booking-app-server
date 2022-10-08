@@ -1,12 +1,12 @@
-using BookingApp.Core.Bookings.Queries;
-using FluentValidation;
+// using BookingApp.Core.Bookings.Queries;
+// using FluentValidation;
 
-namespace BookingApp.Core.Bookings.Validations;
+// namespace BookingApp.Core.Bookings.Validations;
 
-public class GetBookingByKeyQueryValidator : AbstractValidator<GetBookingByKeyQuery>
-{
-    public GetBookingByKeyQueryValidator()
-    {
-        RuleFor(q => q.Id).NotEmpty();
-    }
-}
+// public class GetBookingByKeyQueryValidator : AbstractValidator<GetBookingByKeyQuery>
+// {
+//     public GetBookingByKeyQueryValidator()
+//     {
+//         RuleFor(q => q.Id).NotEmpty();
+//     }
+// }

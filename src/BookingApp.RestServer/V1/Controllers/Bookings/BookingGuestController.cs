@@ -37,13 +37,13 @@ public class BookingGuestController : ControllerBase
         return NoContent();
     }
 
-    [Produces("application/json")]
-    [ProducesResponseType(204)]
-    [ProducesResponseType(400)]
-    [HttpPost("{guestId:guid}/primary")]
-    public async Task<IActionResult> SetAsPrimary(Guid bookingId, Guid guestId)
-    {
-        await _mediator.Send(new SetPrimaryBookingGuestCmd(bookingId, guestId));
-        return NoContent();
-    }
+    // [Produces("application/json")]
+    // [ProducesResponseType(204)]
+    // [ProducesResponseType(400)]
+    // [HttpPost("{guestId:guid}/primary")]
+    // public async Task<IActionResult> SetAsPrimary(Guid bookingId, Guid guestId)
+    // {
+    //     await _mediator.Send(new SetPrimaryBookingGuestCmd(bookingId, guestId));
+    //     return NoContent();
+    // }
 }

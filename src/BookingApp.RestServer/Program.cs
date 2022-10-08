@@ -33,25 +33,7 @@ builder.Services
             .UseNpgsql(builder.Configuration.GetConnectionString("BookingDb"), b => b.MigrationsAssembly("BookingApp.Core.Postgres"));
     })
     .AddLogging()
-    .AddMediatR(
-        typeof(CreateGuestCmdHandler),
-        typeof(DeleteGuestCmdHandler),
-        typeof(SearchGuestsQueryHandler),
-        typeof(GetGuestByKeyQueryHandler),
-        typeof(UpdateGuestCmdHandler),
-        typeof(CreateGuestContactCmdHandler),
-        typeof(DeleteGuestContactCmdHandler),
-        typeof(SearchGuestContactQueryHandler),
-        typeof(GetGuestContactByKeyQueryHandler),
-        typeof(UpdateGuestContactCmdHandler),
-        typeof(CreateBookingCmdHandler),
-        typeof(CancelBookingCmdHandler),
-        typeof(AddBookingGuestCmdHandler),
-        typeof(ConfirmBookingCmdHandler),
-
-        typeof(GuestContactShallReferenceExistingGuest),
-        typeof(PlaceNameShallBeUnique),
-        typeof(BookingShallBeConfirmed))
+    .AddMediatR(typeof(BookingDbContext).Assembly)
 
     .AddScoped<IValidator<CreateGuestWithContactsCmd>, CreateGuestWithContactsCmdValidator>()
     .AddScoped<IValidator<DeleteGuestCmd>, DeleteGuestCmdValidator>()
@@ -73,6 +55,7 @@ builder.Services
     .AddScoped<IValidator<AddBookingGuestCmd>, AddBookingGuestCmdValidator>()
     .AddScoped<IValidator<CancelBookingCmd>, CancelBookingCmdValidator>()
     .AddScoped<IValidator<ConfirmBookingCmd>, ConfirmBookingCmdValidator>()
+    .AddScoped<IValidator<DeleteBookingCmd>, DeleteBookingCmdValidator>()
 
     .AddScoped<CreateGuestCmdHandler>()
     .AddScoped<DeleteGuestCmdHandler>()
@@ -97,7 +80,9 @@ builder.Services
     .AddScoped<CancelBookingCmdHandler>()
     .AddScoped<BookingShallBeConfirmed>()
     .AddScoped<ConfirmBookingCmdHandler>()
-    .AddScoped<BookingShallNotOverlapSchedulesOnSamePlace>();
+    .AddScoped<BookingShallNotOverlapSchedulesOnSamePlace>()
+    .AddScoped<DeleteBookingCmdHandler>()
+    .AddScoped<BookingShallNotBeDeletedInConfirmedOrCancelledState>();
 
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(config =>

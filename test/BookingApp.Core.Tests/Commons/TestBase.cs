@@ -1,3 +1,4 @@
+using System.Reflection;
 using BookingApp.Core.Bookings;
 using BookingApp.Core.Bookings.Commands;
 using BookingApp.Core.Bookings.Rules;
@@ -30,6 +31,7 @@ public abstract class TestBase
     protected readonly IServiceProvider _rootInjector;
     protected readonly IServiceProvider _injector;
     protected readonly IMediator _mediator;
+    protected readonly BookingDbContext _dbContext;
 
     public TestBase()
     {
@@ -46,28 +48,7 @@ public abstract class TestBase
                 options.LogTo(Console.WriteLine, LogLevel.Information);
             })
             .AddLogging()
-            .AddMediatR(
-                typeof(CreateGuestCmdHandler),
-                typeof(DeleteGuestCmdHandler),
-                typeof(SearchGuestsQueryHandler),
-                typeof(GetGuestByKeyQueryHandler),
-                typeof(UpdateGuestCmdHandler),
-                typeof(CreateGuestContactCmdHandler),
-                typeof(DeleteGuestContactCmdHandler),
-                typeof(SearchGuestContactQueryHandler),
-                typeof(GetGuestContactByKeyQueryHandler),
-                typeof(UpdateGuestContactCmdHandler),
-                typeof(DeletePlaceCmdHandler),
-                typeof(SearchPlaceQueryHandler),
-                typeof(GetPlaceByKeyQueryHandler),
-                typeof(UpdatePlaceCmdHandler),
-                typeof(UpdatePlaceCmdHandler),
-                typeof(AddBookingGuestCmdHandler),
-                typeof(CreateBookingCmdHandler),
-                typeof(ConfirmBookingCmdHandler),
-
-                typeof(GuestContactShallReferenceExistingGuest),
-                typeof(SearchAvailablePlacesForBookingQueryHandler))
+            .AddMediatR(typeof(BookingDbContext).Assembly)
 
             .AddScoped<IValidator<CreateGuestWithContactsCmd>, CreateGuestWithContactsCmdValidator>()
             .AddScoped<IValidator<DeleteGuestCmd>, DeleteGuestCmdValidator>()
@@ -89,6 +70,7 @@ public abstract class TestBase
             .AddScoped<IValidator<AddBookingGuestCmd>, AddBookingGuestCmdValidator>()
             .AddScoped<IValidator<CancelBookingCmd>, CancelBookingCmdValidator>()
             .AddScoped<IValidator<ConfirmBookingCmd>, ConfirmBookingCmdValidator>()
+            .AddScoped<IValidator<DeleteBookingCmd>, DeleteBookingCmdValidator>()
 
             .AddScoped<CreateGuestCmdHandler>()
             .AddScoped<DeleteGuestCmdHandler>()
@@ -113,11 +95,14 @@ public abstract class TestBase
             .AddScoped<CancelBookingCmdHandler>()
             .AddScoped<BookingShallBeConfirmed>()
             .AddScoped<ConfirmBookingCmdHandler>()
-            .AddScoped<BookingShallNotOverlapSchedulesOnSamePlace>();
+            .AddScoped<BookingShallNotOverlapSchedulesOnSamePlace>()
+            .AddScoped<BookingShallNotBeDeletedInConfirmedOrCancelledState>()
+            .AddScoped<DeleteGuestCmdHandler>();
 
         _rootInjector = services.BuildServiceProvider();
         _injector = _rootInjector.CreateScope().ServiceProvider;
         _mediator = _injector.GetRequiredService<IMediator>();
-        _injector.GetRequiredService<BookingDbContext>().Database.EnsureDeleted();
+        _dbContext = _injector.GetRequiredService<BookingDbContext>();
+        _dbContext.Database.EnsureDeleted();
     }
 }

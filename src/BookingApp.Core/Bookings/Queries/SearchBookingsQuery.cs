@@ -6,15 +6,15 @@ using MediatR;
 
 namespace BookingApp.Core.Bookings.Queries;
 
-public record SearchBookingsQuery(
-    Guid? ByPlace,
-    DateTime? CheckIn,
-    DateTime? CheckOut,
-    BookingStatusEnum? Status,
-    string? Search,
-    int? Take,
-    int? Skip,
-    string? SortBy
-) : IRequest<CollectionResponse<SearchBookingResponse>>,
-    ISortableQuery,
-    IPageableQuery;
+// public record SearchBookingsQuery(
+//     Guid? ByPlace,
+//     DateTime? CheckIn,
+//     DateTime? CheckOut,
+//     BookingStatusEnum? Status,
+//     string? Search,
+//     int? Take,
+//     int? Skip,
+//     string? SortBy
+// ) : IRequest<CollectionResponse<SearchBookingResponse>>,
+//     ISortableQuery,
+//     IPageableQuery;

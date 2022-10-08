@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookingApp.Core.Bookings;
 
-public class ConfirmBookingCmdHandler : IRequestHandler<ConfirmBookingCmd>
+public class ConfirmBookingCmdHandler : IRequestHandler<ConfirmBookingCmd, Unit>
 {
     private readonly IMediator _mediator;
     private readonly BookingDbContext _dbContext;
