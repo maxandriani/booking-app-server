@@ -1,6 +1,6 @@
-// namespace BookingApp.Core.Bookings.Commands;
+namespace BookingApp.Core.Bookings.Commands;
 
-// public record SetPrimaryBookingGuestCmd(
-//     Guid BookingId,
-//     Guid GuestId
-// );
+public record SetPrimaryBookingGuestCmd(
+    Guid BookingId,
+    Guid GuestId
+);

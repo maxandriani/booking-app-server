@@ -56,6 +56,7 @@ builder.Services
     .AddScoped<IValidator<CancelBookingCmd>, CancelBookingCmdValidator>()
     .AddScoped<IValidator<ConfirmBookingCmd>, ConfirmBookingCmdValidator>()
     .AddScoped<IValidator<DeleteBookingCmd>, DeleteBookingCmdValidator>()
+    .AddScoped<IValidator<DeleteBookingGuestCmd>, DeleteBookingGuestCmdValidator>()
 
     .AddScoped<CreateGuestCmdHandler>()
     .AddScoped<DeleteGuestCmdHandler>()
@@ -82,7 +83,8 @@ builder.Services
     .AddScoped<ConfirmBookingCmdHandler>()
     .AddScoped<BookingShallNotOverlapSchedulesOnSamePlace>()
     .AddScoped<DeleteBookingCmdHandler>()
-    .AddScoped<BookingShallNotBeDeletedInConfirmedOrCancelledState>();
+    .AddScoped<BookingShallNotBeDeletedInConfirmedOrCancelledState>()
+    .AddScoped<DeleteBookingGuestCmdHandler>();
 
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(config =>

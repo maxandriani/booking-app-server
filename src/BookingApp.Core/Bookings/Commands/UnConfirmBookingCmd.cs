@@ -1,7 +1,7 @@
-// using MediatR;
+using MediatR;
 
-// namespace BookingApp.Core.Bookings.Commands;
+namespace BookingApp.Core.Bookings.Commands;
 
-// public record UnConfirmBookingCmd(
-//     Guid BookingId
-// ) : IRequest;
+public record UnConfirmBookingCmd(
+    Guid BookingId
+) : IRequest;

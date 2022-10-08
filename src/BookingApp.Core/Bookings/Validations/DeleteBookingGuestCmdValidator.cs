@@ -3,10 +3,11 @@ using FluentValidation;
 
 namespace BookingApp.Core.Bookings.Validations;
 
-public class UnConfirmBookingCmdValidator : AbstractValidator<UnConfirmBookingCmd>
+public class DeleteBookingGuestCmdValidator : AbstractValidator<DeleteBookingGuestCmd>
 {
-    public UnConfirmBookingCmdValidator()
+    public DeleteBookingGuestCmdValidator()
     {
         RuleFor(q => q.BookingId).NotEmpty();
+        RuleFor(q => q.GuestId).NotEmpty();
     }
 }

@@ -1,5 +1,6 @@
 using System.Net;
 using BookingApp.Core.Bookings.Commands;
+using BookingApp.Core.Bookings.Queries;
 using BookingApp.Core.Bookings.ViewModels;
 using BookingApp.RestServer.V1.ViewModels.Bookings;
 using MediatR;
@@ -19,34 +20,34 @@ public class BookingController : ControllerBase
         _mediator = mediator;
     }
 
-    // [HttpGet]
-    // [Produces("application/json")]
-    // [ProducesResponseType(typeof(List<BookingResponse>), 200)]
-    // [ProducesResponseType(400)]
-    // public async Task<IActionResult> Search([FromQuery] SearchBookingsQuery query)
-    // {
-    //     var response = await _mediator.Send(query);
-    //     Response.Headers.AddCollectionHeaders(response.TotalCount);
-    //     return Ok(await response.Items.ToListAsync());
-    // }
+    [HttpGet]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(List<BookingResponse>), 200)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> Search([FromQuery] SearchBookingsQuery query)
+    {
+        var response = await _mediator.Send(query);
+        Response.Headers.AddCollectionHeaders(response.TotalCount);
+        return Ok(await response.Items.ToListAsync());
+    }
 
-    // [HttpGet("{id:guid}")]
-    // [Produces("application/json")]
-    // [ProducesResponseType(typeof(BookingResponse), 200)]
-    // [ProducesResponseType(400)]
-    // [ProducesResponseType(404)]
-    // public async Task<IActionResult> Get(Guid id)
-    //     => Ok(await _mediator.Send(new GetBookingByKeyQuery(id)));
+    [HttpGet("{id:guid}")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(BookingResponse), 200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public async Task<IActionResult> Get(Guid id)
+        => Ok(await _mediator.Send(new GetBookingByKeyQuery(id)));
 
-    // [Produces("application/json")]
-    // [ProducesResponseType(typeof(BookingResponse), 201)]
-    // [ProducesResponseType(400)]
-    // [HttpPost]
-    // public async Task<IActionResult> Insert([FromBody] CreateBookingCmd body)
-    // {
-    //     var result = await _mediator.Send(body);
-    //     return CreatedAtAction(nameof(Get), new { Id = result.Id }, result);
-    // }
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(BookingResponse), 201)]
+    [ProducesResponseType(400)]
+    [HttpPost]
+    public async Task<IActionResult> Insert([FromBody] CreateBookingCmd body)
+    {
+        var result = await _mediator.Send(body);
+        return CreatedAtAction(nameof(Get), new { Id = result.Id }, result);
+    }
 
     [Produces("application/json")]
     [ProducesResponseType(204)]
