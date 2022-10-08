@@ -64,6 +64,7 @@ public abstract class TestBase
                 typeof(UpdatePlaceCmdHandler),
                 typeof(AddBookingGuestCmdHandler),
                 typeof(CreateBookingCmdHandler),
+                typeof(ConfirmBookingCmdHandler),
 
                 typeof(GuestContactShallReferenceExistingGuest),
                 typeof(SearchAvailablePlacesForBookingQueryHandler))
@@ -87,6 +88,7 @@ public abstract class TestBase
             .AddScoped<IValidator<CreateBookingCmd>, CreateBookingCmdValidator>()
             .AddScoped<IValidator<AddBookingGuestCmd>, AddBookingGuestCmdValidator>()
             .AddScoped<IValidator<CancelBookingCmd>, CancelBookingCmdValidator>()
+            .AddScoped<IValidator<ConfirmBookingCmd>, ConfirmBookingCmdValidator>()
 
             .AddScoped<CreateGuestCmdHandler>()
             .AddScoped<DeleteGuestCmdHandler>()
@@ -109,7 +111,9 @@ public abstract class TestBase
             .AddScoped<CreateBookingCmdHandler>()
             .AddScoped<AddBookingGuestCmdHandler>()
             .AddScoped<CancelBookingCmdHandler>()
-            .AddScoped<BookingShallBeConfirmed>();
+            .AddScoped<BookingShallBeConfirmed>()
+            .AddScoped<ConfirmBookingCmdHandler>()
+            .AddScoped<BookingShallNotOverlapSchedulesOnSamePlace>();
 
         _rootInjector = services.BuildServiceProvider();
         _injector = _rootInjector.CreateScope().ServiceProvider;

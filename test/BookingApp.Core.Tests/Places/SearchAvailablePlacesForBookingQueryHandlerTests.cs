@@ -76,7 +76,11 @@ public class SearchAvailablePlacesForBookingQueryHandlerTests : TestBase
         new object[] { new DateTime(2022, 10, 22, 0, 0, 0, DateTimeKind.Utc),  new DateTime(2022, 11, 5, 0, 0, 0, DateTimeKind.Utc), new List<Guid>() { new("fb2709c2-13a4-4559-83cd-a340f3e53e0b"), new("de2b05b4-de6c-4e4c-9ffb-6361be0e7425") } },
         new object[] { new DateTime(2022, 10, 22, 23, 59, 59, DateTimeKind.Utc),  new DateTime(2022, 11, 5, 0, 0, 0, DateTimeKind.Utc), new List<Guid>() { new("fb2709c2-13a4-4559-83cd-a340f3e53e0b"), new("de2b05b4-de6c-4e4c-9ffb-6361be0e7425") } },
         new object[] { new DateTime(2022, 10, 22, 0, 0, 0, DateTimeKind.Utc),  new DateTime(2022, 11, 5, 23, 59, 59, DateTimeKind.Utc), new List<Guid>() { new("fb2709c2-13a4-4559-83cd-a340f3e53e0b"), new("de2b05b4-de6c-4e4c-9ffb-6361be0e7425") } },
-        new object[] { new DateTime(2022, 10, 22, 23, 59, 59, DateTimeKind.Utc),  new DateTime(2022, 11, 5, 23, 59, 59, DateTimeKind.Utc), new List<Guid>() { new("fb2709c2-13a4-4559-83cd-a340f3e53e0b"), new("de2b05b4-de6c-4e4c-9ffb-6361be0e7425") } }
+        new object[] { new DateTime(2022, 10, 22, 23, 59, 59, DateTimeKind.Utc),  new DateTime(2022, 11, 5, 23, 59, 59, DateTimeKind.Utc), new List<Guid>() { new("fb2709c2-13a4-4559-83cd-a340f3e53e0b"), new("de2b05b4-de6c-4e4c-9ffb-6361be0e7425") } },
+
+        new object[] { new DateTime(2022, 10, 03, 0, 0, 0, DateTimeKind.Utc),  new DateTime(2022, 10, 7, 23, 59, 59, DateTimeKind.Utc), new List<Guid>() { new("2f9aae96-1026-4d76-b8ee-431eb2d32687") } },
+        new object[] { new DateTime(2022, 10, 03, 23, 59, 59, DateTimeKind.Utc),  new DateTime(2022, 10, 7, 0, 0, 0, DateTimeKind.Utc), new List<Guid>() { new("2f9aae96-1026-4d76-b8ee-431eb2d32687") } },
+        new object[] { new DateTime(2022, 10, 03, 0, 0, 0, DateTimeKind.Utc),  new DateTime(2022, 10, 7, 23, 59, 59, DateTimeKind.Utc), new List<Guid>() { new("2f9aae96-1026-4d76-b8ee-431eb2d32687") } }
     };
     [Theory]
     [MemberData(nameof(Should_return_available_places_given_booking_conflict_date_range_on_some_places_data))]

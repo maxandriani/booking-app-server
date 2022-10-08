@@ -10,6 +10,8 @@ public static class BookingDbContextExtensions
                     q.CheckIn.Date >= checkIn.Date && q.CheckIn.Date < checkOut.AddDays(1).Date
                     ||
                     q.CheckOut.Date >= checkIn.Date && q.CheckOut.Date < checkOut.AddDays(1).Date
+                    ||
+                    q.CheckIn.Date <= checkIn.Date && q.CheckOut.Date > checkOut.AddDays(1).Date
                  )
                  &&
                  q.Status == BookingStatusEnum.Confirmed);

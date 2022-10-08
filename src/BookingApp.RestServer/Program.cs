@@ -47,6 +47,7 @@ builder.Services
         typeof(CreateBookingCmdHandler),
         typeof(CancelBookingCmdHandler),
         typeof(AddBookingGuestCmdHandler),
+        typeof(ConfirmBookingCmdHandler),
 
         typeof(GuestContactShallReferenceExistingGuest),
         typeof(PlaceNameShallBeUnique),
@@ -71,6 +72,7 @@ builder.Services
     .AddScoped<IValidator<CreateBookingCmd>, CreateBookingCmdValidator>()
     .AddScoped<IValidator<AddBookingGuestCmd>, AddBookingGuestCmdValidator>()
     .AddScoped<IValidator<CancelBookingCmd>, CancelBookingCmdValidator>()
+    .AddScoped<IValidator<ConfirmBookingCmd>, ConfirmBookingCmdValidator>()
 
     .AddScoped<CreateGuestCmdHandler>()
     .AddScoped<DeleteGuestCmdHandler>()
@@ -93,7 +95,9 @@ builder.Services
     .AddScoped<CreateBookingCmdHandler>()
     .AddScoped<AddBookingGuestCmdHandler>()
     .AddScoped<CancelBookingCmdHandler>()
-    .AddScoped<BookingShallBeConfirmed>();
+    .AddScoped<BookingShallBeConfirmed>()
+    .AddScoped<ConfirmBookingCmdHandler>()
+    .AddScoped<BookingShallNotOverlapSchedulesOnSamePlace>();
 
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(config =>
