@@ -72,6 +72,7 @@ public abstract class TestBase
             .AddScoped<IValidator<ConfirmBookingCmd>, ConfirmBookingCmdValidator>()
             .AddScoped<IValidator<DeleteBookingCmd>, DeleteBookingCmdValidator>()
             .AddScoped<IValidator<DeleteBookingGuestCmd>, DeleteBookingGuestCmdValidator>()
+            .AddScoped<IValidator<UnConfirmBookingCmd>, UnConfirmBookingCmdValidator>()
 
             .AddScoped<CreateGuestCmdHandler>()
             .AddScoped<DeleteGuestCmdHandler>()
@@ -99,7 +100,8 @@ public abstract class TestBase
             .AddScoped<BookingShallNotOverlapSchedulesOnSamePlace>()
             .AddScoped<BookingShallNotBeDeletedInConfirmedOrCancelledState>()
             .AddScoped<DeleteGuestCmdHandler>()
-            .AddScoped<DeleteBookingCmdHandler>();
+            .AddScoped<DeleteBookingCmdHandler>()
+            .AddScoped<UnConfirmBookingCmdHandler>();
 
         _rootInjector = services.BuildServiceProvider();
         _injector = _rootInjector.CreateScope().ServiceProvider;

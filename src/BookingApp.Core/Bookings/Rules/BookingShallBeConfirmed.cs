@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 namespace BookingApp.Core.Bookings.Rules;
 
 public class BookingShallBeConfirmed :
-    INotificationHandler<ValidateCancelBookingCmd>
+    INotificationHandler<ValidateCancelBookingCmd>,
+    INotificationHandler<ValidateUnConfirmBookingCmd>
 {
     private readonly BookingDbContext _dbContext;
 
@@ -16,9 +17,15 @@ public class BookingShallBeConfirmed :
         _dbContext = dbContext;
     }
 
-    public async Task Handle(ValidateCancelBookingCmd notification, CancellationToken cancellationToken)
+    private async Task Handle(Guid bookingId, CancellationToken cancellationToken)
     {
-        var isConfirmed = await _dbContext.Bookings.AnyAsync(q => q.Id == notification.BookingId && q.Status == Models.BookingStatusEnum.Confirmed);
-        if (!isConfirmed) throw new BookingNotConfirmedException(notification.BookingId);
+        var isConfirmed = await _dbContext.Bookings.AnyAsync(q => q.Id == bookingId && q.Status == Models.BookingStatusEnum.Confirmed);
+        if (!isConfirmed) throw new BookingNotConfirmedException(bookingId);
     }
+
+    public Task Handle(ValidateCancelBookingCmd notification, CancellationToken cancellationToken)
+        => Handle(notification.BookingId, cancellationToken);
+
+    public Task Handle(ValidateUnConfirmBookingCmd notification, CancellationToken cancellationToken)
+        => Handle(notification.BookingId, cancellationToken);
 }
