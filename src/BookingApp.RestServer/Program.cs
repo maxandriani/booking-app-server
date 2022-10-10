@@ -1,5 +1,6 @@
 using BookingApp.Core.Bookings;
 using BookingApp.Core.Bookings.Commands;
+using BookingApp.Core.Bookings.Queries;
 using BookingApp.Core.Bookings.Rules;
 using BookingApp.Core.Bookings.Validations;
 using BookingApp.Core.Data;
@@ -59,6 +60,7 @@ builder.Services
     .AddScoped<IValidator<DeleteBookingGuestCmd>, DeleteBookingGuestCmdValidator>()
     .AddScoped<IValidator<UnConfirmBookingCmd>, UnConfirmBookingCmdValidator>()
     .AddScoped<IValidator<UpdateBookingCmd>, UpdateBookingCmdValidator>()
+    .AddScoped<IValidator<GetBookingByKeyQuery>, GetBookingByKeyQueryValidator>()
 
     .AddScoped<CreateGuestCmdHandler>()
     .AddScoped<DeleteGuestCmdHandler>()
@@ -89,7 +91,8 @@ builder.Services
     .AddScoped<DeleteBookingGuestCmdHandler>()
     .AddScoped<UnConfirmBookingCmdHandler>()
     .AddScoped<UpdateBookingCmdHandler>()
-    .AddScoped<BookingShallNotChangeDatesWhenReadOnlyState>();
+    .AddScoped<BookingShallNotChangeDatesWhenReadOnlyState>()
+    .AddScoped<GetBookingByKeyQueryHandler>();
 
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(config =>

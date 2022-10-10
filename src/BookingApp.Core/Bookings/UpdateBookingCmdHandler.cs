@@ -34,6 +34,7 @@ public class UpdateBookingCmdHandler : IRequestHandler<UpdateBookingCmd, Booking
             .Bookings
             .Include(q => q.Guests)
                 .ThenInclude(q => q.Guest)
+                    .ThenInclude(q => q!.Contacts)
             .Include(q => q.Place)
             .FirstOrDefaultAsync(q => q.Id == request.Id);
         if (booking == null) throw new ResourceNotFoundException(nameof(Booking));

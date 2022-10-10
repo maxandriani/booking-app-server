@@ -152,7 +152,7 @@ namespace BookingApp.Core.Postgres.Migrations.BookingDb
 
                     b.HasOne("BookingApp.Core.Guests.Models.Guest", "Guest")
                         .WithMany("Bookings")
-                        .HasForeignKey("BookingId")
+                        .HasForeignKey("GuestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

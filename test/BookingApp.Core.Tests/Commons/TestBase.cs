@@ -1,6 +1,7 @@
 using System.Reflection;
 using BookingApp.Core.Bookings;
 using BookingApp.Core.Bookings.Commands;
+using BookingApp.Core.Bookings.Queries;
 using BookingApp.Core.Bookings.Rules;
 using BookingApp.Core.Bookings.Validations;
 using BookingApp.Core.Data;
@@ -74,6 +75,7 @@ public abstract class TestBase
             .AddScoped<IValidator<DeleteBookingGuestCmd>, DeleteBookingGuestCmdValidator>()
             .AddScoped<IValidator<UnConfirmBookingCmd>, UnConfirmBookingCmdValidator>()
             .AddScoped<IValidator<UpdateBookingCmd>, UpdateBookingCmdValidator>()
+            .AddScoped<IValidator<GetBookingByKeyQuery>, GetBookingByKeyQueryValidator>()
 
             .AddScoped<CreateGuestCmdHandler>()
             .AddScoped<DeleteGuestCmdHandler>()
@@ -104,7 +106,8 @@ public abstract class TestBase
             .AddScoped<DeleteBookingCmdHandler>()
             .AddScoped<UnConfirmBookingCmdHandler>()
             .AddScoped<UpdateBookingCmdHandler>()
-            .AddScoped<BookingShallNotChangeDatesWhenReadOnlyState>();
+            .AddScoped<BookingShallNotChangeDatesWhenReadOnlyState>()
+            .AddScoped<GetBookingByKeyQueryHandler>();
 
         _rootInjector = services.BuildServiceProvider();
         _injector = _rootInjector.CreateScope().ServiceProvider;

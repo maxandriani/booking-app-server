@@ -58,14 +58,14 @@ public class BookingController : ControllerBase
         return NoContent();
     }
 
-    // [Produces("application/json")]
-    // [ProducesResponseType(204)]
-    // [HttpPost("{id:guid}/unconfirm")]
-    // public async Task<IActionResult> UnConfirm(Guid id)
-    // {
-    //     await _mediator.Send(new UnConfirmBookingCmd(id));
-    //     return NoContent();
-    // }
+    [Produces("application/json")]
+    [ProducesResponseType(204)]
+    [HttpPost("{id:guid}/unconfirm")]
+    public async Task<IActionResult> UnConfirm(Guid id)
+    {
+        await _mediator.Send(new UnConfirmBookingCmd(id));
+        return NoContent();
+    }
 
     [Produces("application/json")]
     [ProducesResponseType(204)]
@@ -76,10 +76,10 @@ public class BookingController : ControllerBase
         return NoContent();
     }
 
-    // [HttpPut("{id:guid}")]
-    // [ProducesResponseType(204)]
-    // public async Task<IActionResult> Update(Guid id, [FromBody] UpdateBookingBody body)
-    //     => Ok(await _mediator.Send(new UpdateBookingCmd(id, body.PlaceId, body.CheckIn, body.CheckOut, body.Description)));
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(204)]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateBookingBody body)
+        => Ok(await _mediator.Send(new UpdateBookingCmd(id, body.PlaceId, body.CheckIn, body.CheckOut, body.Description)));
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)

@@ -55,7 +55,7 @@ public abstract class SearchEntityQueryHandlerBase<TDbContext, TEntity, TRequest
     public virtual async Task<CollectionResponse<TResponse>> Handle(TRequest request, CancellationToken cancellationToken)
     {
         await _validator.ValidateAndThrowAsync(request, cancellationToken);
-        var query = CreateSearchQuery(request);
+        var query = CreateSearchQuery(request).AsNoTracking();
         var totalCount = await query.CountAsync(cancellationToken);
 
         if (request is ISortableQuery sorteableRequest)

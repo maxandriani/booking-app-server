@@ -65,7 +65,7 @@ public class BookingDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
         bookingGuest.HasOne(q => q.Guest)
             .WithMany(q => q.Bookings)
-            .HasForeignKey(q => q.BookingId)
+            .HasForeignKey(q => q.GuestId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

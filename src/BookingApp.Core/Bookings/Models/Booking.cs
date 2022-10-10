@@ -41,11 +41,11 @@ public class Booking
     public IReadOnlyList<BookingGuest> Guests
     {
         get => _guests;
-        set => _guests.Select(x =>
+        set => _guests = value.Select(x =>
         {
             x.BookingId = Id;
             return x;
-        });
+        }).ToList();
     }
 
     public void AddGuest(Guest guest, bool IsPrincipal = false)

@@ -1,29 +1,44 @@
 using BookingApp.Core.Bookings.Commands;
 using BookingApp.Core.Bookings.Events;
+using BookingApp.Core.Bookings.Models;
 using BookingApp.Core.Bookings.ViewModels;
 using BookingApp.Core.Commons.Handlers;
 using BookingApp.Core.Data;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingApp.Core.Bookings;
 
-public class CreateBookingCmdHandler : CreateCmdHandlerBase<
-    BookingDbContext,
-    BookingApp.Core.Bookings.Models.Booking,
-    CreateBookingCmd,
-    BookingResponse,
-    ValidateCreateBookingCmd>
+public class CreateBookingCmdHandler : IRequestHandler<CreateBookingCmd, BookingResponse>
 {
+    public readonly BookingDbContext _dbContext;
+    public readonly IValidator<CreateBookingCmd> _requestValidator;
+    public readonly IMediator _mediator;
+
     public CreateBookingCmdHandler(
         BookingDbContext dbContext,
-        IValidator<CreateBookingCmd> validator,
-        IMediator mediator) : base(dbContext, validator, mediator)
+        IValidator<CreateBookingCmd> requestValidator,
+        IMediator mediator)
     {
+        _dbContext = dbContext;
+        _requestValidator = requestValidator;
+        _mediator = mediator;
     }
 
-    protected override Models.Booking MapToEntity(CreateBookingCmd request)
-        => new Models.Booking()
+    public async Task<BookingResponse> Handle(CreateBookingCmd request, CancellationToken cancellationToken)
+    {
+        await _requestValidator.ValidateAndThrowAsync(request);
+        var booking = MapToEntity(request);
+        await _mediator.Publish(new ValidateCreateBookingCmd(booking));
+        _dbContext.Add(booking);
+        await _dbContext.SaveChangesAsync();
+        booking.Place = await _dbContext.Places.FirstAsync(q => q.Id == booking.PlaceId);
+        return new BookingResponse(booking);
+    }
+
+    private Booking MapToEntity(CreateBookingCmd request)
+        => new Booking()
         {
             CheckIn = request.CheckIn,
             CheckOut = request.CheckOut,
@@ -31,9 +46,4 @@ public class CreateBookingCmdHandler : CreateCmdHandlerBase<
             PlaceId = request.PlaceId
         };
 
-    protected override ValidateCreateBookingCmd MapToEvent(Models.Booking entity)
-        => new ValidateCreateBookingCmd(entity);
-
-    protected override BookingResponse MapToResponse(Models.Booking entity)
-        => new BookingResponse(entity);
 }

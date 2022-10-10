@@ -94,8 +94,8 @@ namespace BookingApp.Core.Postgres.Migrations.BookingDb
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookingGuests_Guests_BookingId",
-                        column: x => x.BookingId,
+                        name: "FK_BookingGuests_Guests_GuestId",
+                        column: x => x.GuestId,
                         principalTable: "Guests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
