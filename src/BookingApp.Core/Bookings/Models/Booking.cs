@@ -21,7 +21,17 @@ public class Booking
 
     public Guid Id { get; set; }
     public Guid PlaceId { get; set; }
-    public Place? Place { get; set; }
+    private Place? place;
+    public Place? Place
+    { 
+        get => place;
+        set
+        {
+            place = value;
+            if (place != null)
+                PlaceId = place.Id;
+        }
+    }
     public DateTime CheckIn { get; set; } = DateTime.UtcNow;
     public DateTime CheckOut { get; set; } = DateTime.UtcNow;
     public BookingStatusEnum Status { get; set; } = BookingStatusEnum.Pending;

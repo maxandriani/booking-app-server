@@ -73,6 +73,7 @@ public abstract class TestBase
             .AddScoped<IValidator<DeleteBookingCmd>, DeleteBookingCmdValidator>()
             .AddScoped<IValidator<DeleteBookingGuestCmd>, DeleteBookingGuestCmdValidator>()
             .AddScoped<IValidator<UnConfirmBookingCmd>, UnConfirmBookingCmdValidator>()
+            .AddScoped<IValidator<UpdateBookingCmd>, UpdateBookingCmdValidator>()
 
             .AddScoped<CreateGuestCmdHandler>()
             .AddScoped<DeleteGuestCmdHandler>()
@@ -101,7 +102,9 @@ public abstract class TestBase
             .AddScoped<BookingShallNotBeDeletedInConfirmedOrCancelledState>()
             .AddScoped<DeleteGuestCmdHandler>()
             .AddScoped<DeleteBookingCmdHandler>()
-            .AddScoped<UnConfirmBookingCmdHandler>();
+            .AddScoped<UnConfirmBookingCmdHandler>()
+            .AddScoped<UpdateBookingCmdHandler>()
+            .AddScoped<BookingShallNotChangeDatesWhenReadOnlyState>();
 
         _rootInjector = services.BuildServiceProvider();
         _injector = _rootInjector.CreateScope().ServiceProvider;

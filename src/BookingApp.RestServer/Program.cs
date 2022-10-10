@@ -58,6 +58,7 @@ builder.Services
     .AddScoped<IValidator<DeleteBookingCmd>, DeleteBookingCmdValidator>()
     .AddScoped<IValidator<DeleteBookingGuestCmd>, DeleteBookingGuestCmdValidator>()
     .AddScoped<IValidator<UnConfirmBookingCmd>, UnConfirmBookingCmdValidator>()
+    .AddScoped<IValidator<UpdateBookingCmd>, UpdateBookingCmdValidator>()
 
     .AddScoped<CreateGuestCmdHandler>()
     .AddScoped<DeleteGuestCmdHandler>()
@@ -86,7 +87,9 @@ builder.Services
     .AddScoped<DeleteBookingCmdHandler>()
     .AddScoped<BookingShallNotBeDeletedInConfirmedOrCancelledState>()
     .AddScoped<DeleteBookingGuestCmdHandler>()
-    .AddScoped<UnConfirmBookingCmdHandler>();
+    .AddScoped<UnConfirmBookingCmdHandler>()
+    .AddScoped<UpdateBookingCmdHandler>()
+    .AddScoped<BookingShallNotChangeDatesWhenReadOnlyState>();
 
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(config =>
