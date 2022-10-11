@@ -76,6 +76,7 @@ public abstract class TestBase
             .AddScoped<IValidator<UnConfirmBookingCmd>, UnConfirmBookingCmdValidator>()
             .AddScoped<IValidator<UpdateBookingCmd>, UpdateBookingCmdValidator>()
             .AddScoped<IValidator<GetBookingByKeyQuery>, GetBookingByKeyQueryValidator>()
+            .AddScoped<IValidator<SearchBookingsQuery>, SearchBookingQueryValidator>()
 
             .AddScoped<CreateGuestCmdHandler>()
             .AddScoped<DeleteGuestCmdHandler>()
@@ -107,7 +108,8 @@ public abstract class TestBase
             .AddScoped<UnConfirmBookingCmdHandler>()
             .AddScoped<UpdateBookingCmdHandler>()
             .AddScoped<BookingShallNotChangeDatesWhenReadOnlyState>()
-            .AddScoped<GetBookingByKeyQueryHandler>();
+            .AddScoped<GetBookingByKeyQueryHandler>()
+            .AddScoped<SearchBookingsQueryHandler>();
 
         _rootInjector = services.BuildServiceProvider();
         _injector = _rootInjector.CreateScope().ServiceProvider;
