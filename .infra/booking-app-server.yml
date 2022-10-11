@@ -1,0 +1,50 @@
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: booking-api
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: booking-api
+spec:
+  type: LoadBalancer
+  selector:
+    app: booking-api
+  ports:
+  - port: 10000
+    targetPort: booking-api
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booking-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: booking-api
+  template:
+    metadata:
+      labels:
+        app: booking-api
+    spec:
+      containers:
+      - name: booking-api
+        image: maxandriani/booking-app-server:0.0.0-rc1
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        envFrom:
+          # - configMapRef:
+          #     name: booking-api
+          - secretRef:
+              name: booking-api
+        ports:
+          - containerPort: 80
+            name: booking-api
+
