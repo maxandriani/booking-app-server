@@ -8,6 +8,17 @@ data:
 ---
 
 apiVersion: v1
+kind: Secret
+metadata:
+  name: pg-sec
+type: Opaque
+stringData:
+  POSTGRES_USER: booking
+  POSTGRES_PASSWORD: booking
+
+---
+
+apiVersion: v1
 kind: Service
 metadata:
   name: pg-db
@@ -47,9 +58,9 @@ spec:
           name: pg-db-port
         envFrom:
           - configMapRef:
-            name: pg-conf
+              name: pg-conf
           - secretRef:
-            name: pg-sec
+              name: pg-sec
         volumeMounts:
           - mountPath: /var/lib/postgresql/data
             name: postgres-volume
