@@ -108,6 +108,25 @@ builder.Services.AddApiVersioning(config =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        var origins = builder
+            .Configuration
+            .GetValue<string>("Cors:AllowedOrigins")
+            .Split(",")
+            .Select(origin => origin.Trim());
+
+        policy
+            .WithOrigins(origins.ToArray())
+            .SetIsOriginAllowedToAllowWildcardSubdomains()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -117,6 +136,7 @@ app.UseSwaggerUI();
 //app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseCors();
 
 app.MapControllers();
 
