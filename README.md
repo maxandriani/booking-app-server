@@ -5,7 +5,7 @@ Aplicação de gerenciamento de locações.
 ## Build and Publish
 
 ```sh
-docker buildx build -t maxandriani/booking-app-server:0.0.0-rc2 -f ./src/BookingApp.RestServer/Dockerfile --platform linux/amd64,linux/arm64 --push .
+docker buildx build -t maxandriani/booking-app-server:0.0.0-rc3 -f ./src/BookingApp.RestServer/Dockerfile --platform linux/amd64,linux/arm64 --push .
 ```
 
 ```sh
