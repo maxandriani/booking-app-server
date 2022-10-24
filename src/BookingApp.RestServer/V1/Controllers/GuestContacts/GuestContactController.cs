@@ -51,7 +51,7 @@ public class GuestContactController : ControllerBase
     public async Task<IActionResult> Insert(Guid guestId, [FromBody] CreateUpdateGuestContactBody body)
     {
         var result = await _mediator.Send(new CreateGuestContactCmd(guestId, body.Type, body.Value));
-        return CreatedAtAction(nameof(Get), new { Id = result.Id }, result);
+        return CreatedAtAction(nameof(Get), new { GuestId = guestId, Id = result.Id }, result);
     }
 
     [HttpPut("{id:guid}")]
