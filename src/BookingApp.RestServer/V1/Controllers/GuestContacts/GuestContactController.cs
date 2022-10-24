@@ -48,15 +48,15 @@ public class GuestContactController : ControllerBase
     [ProducesResponseType(typeof(GuestContactResponse), 201)]
     [ProducesResponseType(400)]
     [HttpPost]
-    public async Task<IActionResult> Insert([FromBody] CreateGuestContactCmd body)
+    public async Task<IActionResult> Insert(Guid guestId, [FromBody] CreateUpdateGuestContactBody body)
     {
-        var result = await _mediator.Send(body);
+        var result = await _mediator.Send(new CreateGuestContactCmd(guestId, body.Type, body.Value));
         return CreatedAtAction(nameof(Get), new { Id = result.Id }, result);
     }
 
     [HttpPut("{id:guid}")]
     [ProducesResponseType(204)]
-    public async Task<IActionResult> Update(Guid id, Guid guestId, [FromBody] UpdateGuestContactBody body)
+    public async Task<IActionResult> Update(Guid id, Guid guestId, [FromBody] CreateUpdateGuestContactBody body)
         => Ok(await _mediator.Send(new UpdateGuestContactCmd(id, guestId, body.Type, body.Value)));
 
     [HttpDelete("{id:guid}")]
