@@ -40,6 +40,12 @@ public class SearchBookingsQueryHandler : SearchEntityQueryHandlerBase<
         if (request.Status != null)
             query = query.Where(q => q.Status == request.Status.Value);
 
+        if (request.SinceDate != null)
+            query = query.Where(q => q.CheckIn.Date >= request.SinceDate.Value.Date);
+
+        if (request.UntilDate != null)
+            query = query.Where(q => q.CheckOut.Date <= request.UntilDate.Value.Date);
+
         if (!string.IsNullOrWhiteSpace(request.Search))
             query = query.Where(q =>
                 q.Description != null && q.Description.ToLower().StartsWith(request.Search.ToLower())

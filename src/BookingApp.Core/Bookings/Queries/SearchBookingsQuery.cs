@@ -9,6 +9,8 @@ namespace BookingApp.Core.Bookings.Queries;
 public record SearchBookingsQuery(
     Guid? ByPlace = null,
     DateTime? Date = null,
+    DateTime? SinceDate = null,
+    DateTime? UntilDate = null,
     BookingStatusEnum? Status = null,
     string? Search = null,
     int? Take = null,

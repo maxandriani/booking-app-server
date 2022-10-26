@@ -44,15 +44,15 @@ public class SearchBookingsQueryHandlerTest : TestBase
 
     private static List<Booking> Bookings = new()
     {
-        new (Guid.NewGuid(), Place1.Id, DateTime.UtcNow.Date, DateTime.UtcNow.Date.AddDays(2), "Booking 1", BookingStatusEnum.Unknown),
-        new (Guid.NewGuid(), Place1.Id, DateTime.UtcNow.Date, DateTime.UtcNow.Date.AddDays(2), "Booking 2", BookingStatusEnum.Pending),
-        new (Guid.NewGuid(), Place1.Id, DateTime.UtcNow.Date, DateTime.UtcNow.Date.AddDays(2), "Booking 3", BookingStatusEnum.Confirmed),
-        new (Guid.NewGuid(), Place1.Id, DateTime.UtcNow.Date, DateTime.UtcNow.Date.AddDays(2), "Booking 4", BookingStatusEnum.Cancelled),
-        new (Guid.NewGuid(), Place1.Id, DateTime.UtcNow.Date.AddDays(3), DateTime.UtcNow.Date.AddDays(6), "Booking 5", BookingStatusEnum.Confirmed),
-        new (Guid.NewGuid(), Place2.Id, DateTime.UtcNow.Date.AddDays(7), DateTime.UtcNow.Date.AddDays(10), "Booking 6", BookingStatusEnum.Confirmed),
-        new (Guid.NewGuid(), Place2.Id, DateTime.UtcNow.Date.AddDays(11), DateTime.UtcNow.Date.AddDays(12), "Booking 7", BookingStatusEnum.Confirmed),
-        new (Guid.NewGuid(), Place2.Id, DateTime.UtcNow.Date.AddDays(13), DateTime.UtcNow.Date.AddDays(14), "Booking 8", BookingStatusEnum.Confirmed),
-        new (Guid.NewGuid(), Place2.Id, DateTime.UtcNow.Date.AddDays(15), DateTime.UtcNow.Date.AddDays(16), "Booking 9", BookingStatusEnum.Confirmed)
+        new (new Guid("c039c21e-c67f-429f-b339-fe4ba6db8ea2"), Place1.Id, DateTime.UtcNow.Date, DateTime.UtcNow.Date.AddDays(2), "Booking 1", BookingStatusEnum.Unknown),
+        new (new Guid("1dd5cad7-5164-4189-b7f6-bf68c8b29902"), Place1.Id, DateTime.UtcNow.Date, DateTime.UtcNow.Date.AddDays(2), "Booking 2", BookingStatusEnum.Pending),
+        new (new Guid("00a77641-c9b7-442e-b62d-b70c211023e3"), Place1.Id, DateTime.UtcNow.Date, DateTime.UtcNow.Date.AddDays(2), "Booking 3", BookingStatusEnum.Confirmed),
+        new (new Guid("4a2692da-ce7d-4962-901a-dbcac932f8de"), Place1.Id, DateTime.UtcNow.Date, DateTime.UtcNow.Date.AddDays(2), "Booking 4", BookingStatusEnum.Cancelled),
+        new (new Guid("19016356-10c6-4ee9-ad42-6993a2744dde"), Place1.Id, DateTime.UtcNow.Date.AddDays(3), DateTime.UtcNow.Date.AddDays(6), "Booking 5", BookingStatusEnum.Confirmed),
+        new (new Guid("0fe3a3df-94bd-4b26-b003-522022da0c7d"), Place2.Id, DateTime.UtcNow.Date.AddDays(7), DateTime.UtcNow.Date.AddDays(10), "Booking 6", BookingStatusEnum.Confirmed),
+        new (new Guid("f1522db7-d553-455c-93d0-961ee588b59e"), Place2.Id, DateTime.UtcNow.Date.AddDays(11), DateTime.UtcNow.Date.AddDays(12), "Booking 7", BookingStatusEnum.Confirmed),
+        new (new Guid("1e62812f-e411-4e60-850d-fa58c39a7466"), Place2.Id, DateTime.UtcNow.Date.AddDays(13), DateTime.UtcNow.Date.AddDays(14), "Booking 8", BookingStatusEnum.Confirmed),
+        new (new Guid("abb8fe57-6056-4335-9d79-163f4ff7bae1"), Place2.Id, DateTime.UtcNow.Date.AddDays(15), DateTime.UtcNow.Date.AddDays(16), "Booking 9", BookingStatusEnum.Confirmed)
     };
 
     private static List<BookingGuest> Guests = Bookings.SelectMany((booking, x) => (x % 3) switch
@@ -185,6 +185,47 @@ public class SearchBookingsQueryHandlerTest : TestBase
             var result = results.FirstOrDefault(q => q.Booking.Id == booking.Id);
             result.Booking.Id.ShouldBe(booking.Id);
             booking.Guest?.Name.ShouldBe(result.Name);
+        }
+    }
+
+    [Fact]
+    public async Task Should_filter_bookings_by_since_date()
+    {
+        var cmd = new SearchBookingsQuery() { SinceDate = DateTime.UtcNow.AddDays(10) };
+        var proof = await _mediator.Send(cmd);
+        var correctAnswer = new HashSet<Guid>()
+        {
+            new Guid("f1522db7-d553-455c-93d0-961ee588b59e"),
+            new Guid("1e62812f-e411-4e60-850d-fa58c39a7466"),
+            new Guid("abb8fe57-6056-4335-9d79-163f4ff7bae1")
+        };
+
+        proof.TotalCount.ShouldBe(3);
+        await foreach(var booking in proof.Items)
+        {
+            correctAnswer.Contains(booking.Id).ShouldBeTrue();
+        }
+    }
+
+    [Fact]
+    public async Task Should_filter_bookings_by_until_date()
+    {
+        var cmd = new SearchBookingsQuery() { UntilDate = DateTime.UtcNow.AddDays(10) };
+        var proof = await _mediator.Send(cmd);
+        var correctAnswer = new HashSet<Guid>()
+        {
+            new Guid("c039c21e-c67f-429f-b339-fe4ba6db8ea2"),
+            new Guid("1dd5cad7-5164-4189-b7f6-bf68c8b29902"),
+            new Guid("00a77641-c9b7-442e-b62d-b70c211023e3"),
+            new Guid("4a2692da-ce7d-4962-901a-dbcac932f8de"),
+            new Guid("19016356-10c6-4ee9-ad42-6993a2744dde"),
+            new Guid("0fe3a3df-94bd-4b26-b003-522022da0c7d")
+        };
+
+        proof.TotalCount.ShouldBe(6);
+        await foreach(var booking in proof.Items)
+        {
+            correctAnswer.Contains(booking.Id).ShouldBeTrue();
         }
     }
 }
