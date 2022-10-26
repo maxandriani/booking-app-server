@@ -47,7 +47,7 @@ spec:
     spec:
       containers:
       - name: booking-api
-        image: maxandriani/booking-app-server:0.0.0-rc3
+        image: maxandriani/booking-app-server:0.0.0-rc4
         imagePullPolicy: Always
         resources:
           limits:
